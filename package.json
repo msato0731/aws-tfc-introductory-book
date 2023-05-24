@@ -1,0 +1,23 @@
+{
+  "name": "aws-tfc-introductory-book",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/msato0731/aws-tfc-introductory-book.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msato0731/aws-tfc-introductory-book/issues"
+  },
+  "homepage": "https://github.com/msato0731/aws-tfc-introductory-book#readme",
+  "dependencies": {
+    "zenn-cli": "^0.1.143"
+  }
+}
