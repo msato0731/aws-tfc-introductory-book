@@ -6,6 +6,8 @@ title: "はじめに"
 
 本書は、Terraformは使ったことはあるがTerraform Cloudは使ったことがないという方を対象に、**Terraform Cloudに関する知識がない状態から、本番環境でTerraform Cloudを使ったTerraform運用をできる**ようになることを目的としています。
 
+<!-- TODO: AWSを使うことも触れたい -->
+
 ## 対象読者
 
 本書では、以下のような読者の方を対象としています。
