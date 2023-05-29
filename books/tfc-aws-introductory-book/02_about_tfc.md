@@ -30,6 +30,8 @@ Terraform Cloudには以下の機能があり、課題の解決に役立つか�
 - Private Registry
 - Stateファイル管理
 
+<!-- TODO: Secrets管理も含めるか -->
+
 ### CI/CDパイプライン
 
 Terraform Cloudでは、VCS(GitHub、GitLab等)と連携したデプロイパイプラインを作成できます。
