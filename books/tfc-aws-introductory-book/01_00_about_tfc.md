@@ -2,6 +2,10 @@
 title: "Terraform Cloudとは"
 ---
 
+:::message
+本チャプターでは、Terraform Cloudとはなにか？ どういった機能があるのか？などのTerraform Cloudの概要を解説します。
+:::
+
 ## Terraform Cloudとは
 
 Terraform CloudはTerraformを組織で利用するために必要なデプロイパイプラインやガバナンス機能を提供するSaaS製品です。

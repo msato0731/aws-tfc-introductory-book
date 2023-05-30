@@ -2,8 +2,9 @@
 title: "Terraform Cloudの基本概念"
 ---
 
-<!-- TODO: 図があるといいかも -->
-<!-- TODO: Policyとかもいる？Policyの章で説明したほうが分かりやすい？ -->
+:::message
+本チャプターでは、Terraform Cloudの構成要素であるOrganizationやWorkspaceについて解説します。
+:::
 
 ## Organization
 
