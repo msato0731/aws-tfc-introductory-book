@@ -1,9 +1,9 @@
 ---
-title: "Terraform CloudとAWSの環境準備 - Terraform Cloud Organization・User作成"
+title: "Terraform CloudとAWSアカウントの準備"
 ---
 
 :::message
-本チャプターでは、Terraform CloudのOrganizationとUserを作成します。
+本チャプターでは、Terraform CloudのOrganization/UserとAWSアカウントを用意します。
 
 すでに用意できている場合は、スキップしてください。
 :::
@@ -39,3 +39,9 @@ Freeプランには一部の機能に制限はありますが、利用期間の�
 `Create a new Workspace`の画面が出てきたら、Organizationの作成とTerraform Cloudユーザーの作成は完了です。
 
 ![](/images/chapter_3/tfc-create-account-5.png)
+
+## AWSアカウントの作成
+
+もし、AWSアカウントを持っていない場合は、以下の手順でAWSアカウントを作成してください。
+
+[AWS アカウント作成の流れ【AWS 公式】](https://aws.amazon.com/jp/register-flow/)

@@ -9,4 +9,5 @@ chapters:
   - 01_00_about_tfc
   - 02_00_tfc_concept
   - 03_00_tfc_create_org_user
-  - 03_01_aws_account_create
+  - 04_00_tfc_aws_deploy
+  - 04_01_aws_iam_role_create
