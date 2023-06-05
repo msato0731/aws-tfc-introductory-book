@@ -5,9 +5,9 @@ published: false
 price: 0 # 有料の場合200〜5000
 # 本に含めるチャプターを順番に並べましょう
 chapters:
-  - 00_00_introduction
-  - 01_00_about_tfc
-  - 02_00_tfc_concept
-  - 03_00_tfc_create_org_user
-  - 04_00_tfc_aws_deploy
-  - 04_01_aws_iam_role_create
+  - 01_introduction
+  - 02_about_tfc
+  - 03_tfc_concept
+  - 04_tfc_create_org_user
+  - 05_01_tfc_aws_deploy
+  - 05_02_aws_iam_role_create

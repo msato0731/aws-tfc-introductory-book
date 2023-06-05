@@ -9,6 +9,8 @@ title: "Terraform CloudでAWSにリソースをデプロイする - Terraform Cl
 
 ## Terraform Cloud用IAMロールの作成
 
+<!-- IAM Roleの部分を作ることがわかるように図があってもいいかも、全体構成でIAM Roleの部分を赤枠で囲む -->
+
 Terraform Cloudは、OpenID Connectを使用してAWSやAzure、Google Cloudに対して動的なクレデンシャルを生成できます。
 
 永続的なIAMユーザーを作成せずに、IAMロールを使用して認証ができます。
@@ -23,7 +25,7 @@ IAMロール作成後は不要になりますが、Terraform Cloud用のIAMロ�
 
 CloudShellを開いて、以下のコマンドを実行します。
 
-![](/images/chapter_4/aws-iam-role-1.png)
+![](/images/chapter_5/aws-iam-role-1.png)
 
 ```bash
 aws iam create-user --user-name tmp-tfc-user
