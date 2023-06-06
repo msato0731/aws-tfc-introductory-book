@@ -7,9 +7,9 @@ title: "Terraform CloudでAWSにリソースをデプロイする - Terraform Cl
 
 :::
 
-## Terraform Cloud用IAMロールの作成
+![](/images/chapter_5/02-iam-role-archi.png)
 
-<!-- IAM Roleの部分を作ることがわかるように図があってもいいかも、全体構成でIAM Roleの部分を赤枠で囲む -->
+## Terraform Cloud用IAMロールの作成
 
 Terraform Cloudは、OpenID Connectを使用してAWSやAzure、Google Cloudに対して動的なクレデンシャルを生成できます。
 
@@ -39,14 +39,113 @@ aws iam create-access-key --user-name tmp-tfc-user
 
 <!-- TODO: IAMロール用のTerraformの説明 -->
 
+#### tfファイルの用意
+
+IAMロール用のTerraformを書いていきます。
+
 ローカルでコンソールを開いて以下の作業を行います。
 
-本書のサンプルコードリポジトリをGit Cloneして、IAMロール作成用のフォルダに移動します。
-
 ```bash
-git clone git@github.com:msato0731/aws-tfc-introductory-book-samples.git
+mkdir -p trust/iam_role
 cd trust/iam_role
 ```
+
+以下のファイルを用意します。
+
+```hcl: main.tf
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0.1"
+    }
+  }
+}
+
+provider "aws" {
+}
+
+locals {
+  tfc_hostname = "app.terraform.io"
+}
+
+data "tls_certificate" "tfc_certificate" {
+  url = "https://${local.tfc_hostname}"
+}
+
+resource "aws_iam_openid_connect_provider" "tfc_provider" {
+  url             = data.tls_certificate.tfc_certificate.url
+  client_id_list  = ["aws.workload.identity"]
+  thumbprint_list = [data.tls_certificate.tfc_certificate.certificates[0].sha1_fingerprint]
+}
+
+resource "aws_iam_role" "tfc_role" {
+  name = "tfc-role"
+
+  assume_role_policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+   {
+     "Effect": "Allow",
+     "Principal": {
+       "Federated": "${aws_iam_openid_connect_provider.tfc_provider.arn}"
+     },
+     "Action": "sts:AssumeRoleWithWebIdentity",
+     "Condition": {
+       "StringEquals": {
+         "${local.tfc_hostname}:aud": "${one(aws_iam_openid_connect_provider.tfc_provider.client_id_list)}"
+       },
+       "StringLike": {
+         "${local.tfc_hostname}:sub": "organization:${var.tfc_organization_name}:project:*:workspace:*:run_phase:*"
+       }
+     }
+   }
+ ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "tfc_policy" {
+  name        = "tfc-policy"
+  description = "TFC run policy"
+
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+   {
+     "Effect": "Allow",
+     "Action": [
+       "ec2:*",
+       "sqs:*"
+     ],
+     "Resource": "*"
+   }
+ ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "tfc_policy_attachment" {
+  role       = aws_iam_role.tfc_role.name
+  policy_arn = aws_iam_policy.tfc_policy.arn
+}
+```
+
+主に、Terraform Cloud用のIAMロールとアタッチするIAMポリシーを定義しています。
+
+OIDC用のサムプリントは、べた書きしなくても`data "tls_certificate"`で取得することが可能です。
+
+今回はTerraform CloudのOrganizationのすべてのWorkspaceに対して、`assume_role_policy`でIAM Roleの引き受けを許可しています。
+
+特定のWorkspaceやProjectまたRun・Planといったフェーズごとに引き受けられる条件を指定することも可能です。
+
+権限はEC2とSQSを許可しています。EC2の他にSQSを許可している理由は、動作確認でSQSのリソースを作成するためです。
+
+<!-- TODO: その他のファイル -->
+
+#### Terraformの実行
 
 先程作成した`AccessKeyId`と`SecretAccessKey`を環境変数に設定します。
 
@@ -65,13 +164,13 @@ terraform apply
 
 apply時の出力されるOutputsの`role_arn`をこの後使うのため、メモしておきます。
 
+
 ### 動作確認
 
 IAMロールを作成できたら、動作確認をします。
 
 動作確認では、SQSを作成します。
 
-:::details trust/test/main.tf
 ```hcl: trust/test/main.tf
 terraform {
   required_providers {
@@ -95,7 +194,6 @@ resource "aws_sqs_queue" "my_queue" {
   name = "my-queue"
 }
 ```
-:::
 
 Terraform Cloudを使用したことがない場合は、以下のコマンドを実行してローカルからTerraform Cloudに接続するための認証情報を作成します。
 

@@ -23,3 +23,9 @@ title: "はじめに"
 
 - Terraformの基礎知識を持っている方
 - AWSの基礎知識を持っている方
+
+## サンプルコード
+
+本書のサンプルコードは以下にあります。
+
+[msato0731/aws-tfc-introductory-book-samples](https://github.com/msato0731/aws-tfc-introductory-book-samples)
