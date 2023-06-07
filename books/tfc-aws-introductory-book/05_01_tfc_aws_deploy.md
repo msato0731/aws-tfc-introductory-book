@@ -20,7 +20,7 @@ Terraform CloudはIAM Roleを使用して、各AWSリソースの操作を行い
 
 1つのAWSアカウントのため、IAM Roleも1つだけ(※1)用意してVariables Setに登録してそれぞれのWorkspaceで使用できるようにします。
 
-![](/images/chapter_5/02-aws-iam-role-1.png)
+![](/images/chapter_5/01-tfc-aws-book-archi-1.png)
 
 ※1 WorkspaceごとにIAM Roleを作成して、それぞれ最小権限を渡すことも可能です。
 以下の理由から、IAM Roleを分けずに1つだけ作成しています。
@@ -34,7 +34,7 @@ VPCとEC2というシンプルな構成を作成します。
 
 VPCを本番/STGの環境ごとに分割します。
 
-![](/images/chapter_5/02-aws-iam-role-2.png)
+![](/images/chapter_5/01-tfc-aws-book-archi-2.png)
 
 ## デプロイフロー
 
@@ -51,4 +51,6 @@ VPCを本番/STGの環境ごとに分割します。
 
 今回はmainブランチをリリース用のブランチとして使用しますが、Terraform CloudではWorkspaceごとにブランチを設定できるため環境ごとにブランチを分ける方法も可能です。
 
-![](/images/chapter_5/02-aws-iam-role-2.png)
+<!-- 絵のterraform applyとかしている枠にTerraform Cloudのアイコンを付ける -->
+
+![](/images/chapter_5/01-tfc-aws-book-archi-3.png)
