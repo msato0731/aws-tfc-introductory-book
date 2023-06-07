@@ -25,7 +25,7 @@ IAMロール作成後は不要になりますが、Terraform Cloud用のIAMロ�
 
 CloudShellを開いて、以下のコマンドを実行します。
 
-![](/images/chapter_5/aws-iam-role-1.png)
+![](/images/chapter_5/02-aws-iam-role-1.png)
 
 ```bash
 aws iam create-user --user-name tmp-tfc-user
@@ -36,8 +36,6 @@ aws iam create-access-key --user-name tmp-tfc-user
 `aws iam create-access-key`コマンドで出力される`AccessKeyId`と`SecretAccessKey`は、この後使うためメモしておいてください。
 
 ### Terraform Cloud用のIAMロールを作成
-
-<!-- TODO: IAMロール用のTerraformの説明 -->
 
 #### tfファイルの用意
 
@@ -51,6 +49,8 @@ cd trust/iam_role
 ```
 
 以下のファイルを用意します。
+
+<!-- TODO: 必要に応じて権限の見直し -->
 
 ```hcl: main.tf
 terraform {
@@ -143,7 +143,35 @@ OIDC用のサムプリントは、べた書きしなくても`data "tls_certific
 
 権限はEC2とSQSを許可しています。EC2の他にSQSを許可している理由は、動作確認でSQSのリソースを作成するためです。
 
-<!-- TODO: その他のファイル -->
+```hcl: variables.tf
+variable "tfc_organization_name" {
+  type        = string
+  description = "The name of your Terraform Cloud organization"
+}
+```
+
+```hcl: terraform.tfvars
+tfc_organization_name = "<YOUR_ORG>"
+```
+
+Terraform CloudのOrganization名は、Variablesとして定義します。
+
+`terraform.tfvars`の`<YOUR_ORG>`の部分を自分のOrganization名に変更してください。
+
+Organization名の確認方法はいくつかありますが、Terraform Cluodの画面上から確認するのが簡単です。
+
+以下のスクショの`tfc-aws-book-test`の部分がOrganization名です。
+
+![](/images/chapter_5/02-aws-iam-role-2.png)
+
+```hcl: outputs.tf
+output "role_arn" {
+  description = "ARN for trust relationship role"
+  value       = aws_iam_role.tfc_role.arn
+}
+```
+
+作成したIAM Role ARNは、Terraform Cloudにセットする必要があるためOutputsとして出力します。
 
 #### Terraformの実行
 
@@ -171,15 +199,12 @@ IAMロールを作成できたら、動作確認をします。
 
 動作確認では、SQSを作成します。
 
+以下のファイルを用意します。
+
 ```hcl: trust/test/main.tf
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0.1"
-    }
-  }
   cloud {
+    organization = "<Organization名>" # 書き換える
     workspaces {
       name = "tfc-iam-role-test"
     }
@@ -195,6 +220,18 @@ resource "aws_sqs_queue" "my_queue" {
 }
 ```
 
+ローカルからCLIでTerraform Cloudを利用する場合(CLI Driven Workflow)、`cloud`ブロックの設定が必要です。
+
+Organization名は自身の環境にあった名前に書き換えてください。
+
+:::message
+本書で主に使用するVCS Driven Workflowでは、`cloud`ブロックの設定は無視されWorkspace設定に従って動作します。
+
+そのため、本書ではVCS Driven Workflowで使用するTerraformコード上では`cloud`ブロックの設定は行いません。(上記のSQS作成のコードはCLI Driven Workflow)
+
+[Terraform Cloud Settings \- Terraform CLI \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cli/cloud/settings)
+:::
+
 Terraform Cloudを使用したことがない場合は、以下のコマンドを実行してローカルからTerraform Cloudに接続するための認証情報を作成します。
 
 ```bash
@@ -205,13 +242,12 @@ terraform login
 
 ```bash
 cd trust/test
-export TF_CLOUD_ORGANIZATION=<Organization名>
 terraform init
 ```
 
 Terraform Cloudの画面を見てみると、`tfc-iam-role-test`というWorkspaceが作成されていることを確認できます。
 
-![](/images/chapter_4/aws-iam-role-2.png)
+![](/images/chapter_5/02-aws-iam-role-3.png)
 
 Workspaceが作成したTerraform Cloud用のIAMロールを使用するように設定する必要があります。
 
@@ -224,21 +260,37 @@ Workspace `tfc-iam-role-test` -> Variablesの順に選択します。
 |  Environment variable  |  TFC_AWS_PROVIDER_AUTH  |  true  | No  |
 |  Environment variable  |  TFC_AWS_RUN_ROLE_ARN  |  <IAM Role用TerraformのOutputs `role_arn`>  |  No  |
 
-![](/images/chapter_4/aws-iam-role-3.png)
+![](/images/chapter_5/02-aws-iam-role-4.png)
 
 Variablesの設定ができたら、Terraformを実行します。
-Terraform Cloud上でterraformコマンドが実行されるため、ローカルにはAWS認証情報は不要です。
+Terraform Cloud上でterraformコマンドが実行されるため、ローカルにAWS認証情報は不要です。
 
 ```bash
 terraform plan
 terraform apply
 ```
 
-<!-- テスト用リソース削除の手順も -->
+Terraformで定義した、SQSキュー`my-queue`が作成されたことが確認できたら、成功です。
+
+![](/images/chapter_5/02-aws-iam-role-5.png)
+
+確認できたら、テスト用のリソースは削除しておきます。
+
+```bash
+terraform destroy
+```
+
+Workspaceも削除します。
+
+`tfc-iam-role-test` -> `Settings` -> `Destruction and Deletion` -> `Force Delete from Terraform Cloud`の順番に選択して、Workspaceの削除を実行します。
+
+![](/images/chapter_5/02-aws-iam-role-6.png)
 
 ### IAMユーザーの削除
 
-IAMロールを使って、Terraform CloudからAWSリソースを操作できるようになったためIAMユーザーは削除します。
+これまでの操作で、IAMロールを使ってTerraform CloudからAWSリソースを操作をできるようになりました。
+
+最初に作成したIAMユーザーは不要になったため、以下のコマンドで削除します。
 
 ```bash
 aws iam delete-access-key --user-name tmp-tfc-user --access-key-id <AccessKeyId>
