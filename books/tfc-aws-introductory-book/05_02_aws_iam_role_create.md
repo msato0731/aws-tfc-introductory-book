@@ -192,7 +192,6 @@ terraform apply
 
 apply時の出力されるOutputsの`role_arn`をこの後使うのため、メモしておきます。
 
-
 ### 動作確認
 
 IAMロールを作成できたら、動作確認をします。

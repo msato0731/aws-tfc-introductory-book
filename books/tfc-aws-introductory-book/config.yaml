@@ -11,3 +11,4 @@ chapters:
   - 04_tfc_create_org_user
   - 05_01_tfc_aws_deploy
   - 05_02_aws_iam_role_create
+  - 05_03_prepare_tf_file
