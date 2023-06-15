@@ -1,5 +1,5 @@
 ---
-title: "Terraform Cloudとは"
+title: "Chapter2: Terraform Cloudとは"
 ---
 
 :::message

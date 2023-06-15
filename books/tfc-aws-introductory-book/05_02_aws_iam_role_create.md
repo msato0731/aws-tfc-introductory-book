@@ -1,9 +1,9 @@
 ---
-title: "Terraform CloudでAWSにリソースをデプロイする - Terraform Cloud用IAMロール作成"
+title: "　Terraform Cloud用IAMロール作成"
 ---
 
 :::message
-本チャプターでは、Terraform CloudでAWSを操作するためのIAMロールを作成します。
+本節では、Terraform CloudでAWSを操作するためのIAMロールを作成します。
 
 :::
 
