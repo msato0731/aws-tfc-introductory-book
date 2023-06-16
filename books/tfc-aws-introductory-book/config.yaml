@@ -13,3 +13,4 @@ chapters:
   - 05_01_tfc_aws_archi
   - 05_02_aws_iam_role_create
   - 05_03_prepare_tf_file
+  - 05_04_tfc_github_deploy
