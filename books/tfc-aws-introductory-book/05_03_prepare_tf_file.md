@@ -7,15 +7,27 @@ title: "　tfファイル作成"
 
 :::
 
-## ディレクトリ構成
+## サンプルリポジトリのfork
 
-`prod`と`stg`ディレクトリを作成して、それぞれ`main.tf`ファイルを配置します。
+[サンプルリポジトリ](https://github.com/msato0731/aws-tfc-introductory-book-samples)をforkして、本チャプターのディレクトリに移動します。
 
 ```bash
-├── ./prod
-│   └── ./prod/main.tf
-└── ./stg
-    └── ./stg/main.tf
+git clone <forkしたリポジトリ>
+cd aws-tfc-introductory-book-samples/infra/chapter5/
+```
+
+## ディレクトリ構成
+
+`prod`と`stg`ディレクトリがあり、それぞれ`main.tf`ファイルを配置しています。
+
+```bash
+aws-tfc-introductory-book-samples
+└── infra
+  └── chapter5
+    ├── ./prod
+    │   └── ./prod/main.tf
+    └── ./stg
+        └── ./stg/main.tf
 ```
 
 ## tfファイルの作成
