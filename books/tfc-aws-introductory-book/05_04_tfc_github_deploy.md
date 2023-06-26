@@ -11,7 +11,7 @@ title: "　Terraform CloudとGitHubリポジトリを接続してデプロイを
 
 Terraform Cloudで、Projectを作成します。
 
-![](/images/chapter_5/04-project-1.png)
+![](/images/chapter_5/04-01-project-01.png)
 
 Project nameは以下とします。
 
@@ -19,7 +19,7 @@ Project nameは以下とします。
 | ---- | ---- |
 |  Project name  |  aws-tfc-introductory-book  |
 
-![](/images/chapter_5/04-project-2.png)
+![](/images/chapter_5/04-01-project-02.png)
 
 ## Variables Setの作成
 
@@ -49,22 +49,21 @@ Terraform Cloudのポータルサイト上で、`Settings` -> `Variables sets`�
 |  Environment variable  |  TFC_AWS_PROVIDER_AUTH  |  true  | No  |
 |  Environment variable  |  TFC_AWS_RUN_ROLE_ARN  |  <`role_arn`>  |  No  |
 
-
-![](/images/chapter_5/04-variables-1.png)
+![](/images/chapter_5/04-02-variables-01.png)
 
 ## Workspaceの作成(VCS Driven)
 
 作成したProject配下にWorkspaceを作成します。
 
-![](/images/chapter_5/04-workspace-1.png)
+![](/images/chapter_5/04-03-workspace-01.png)
 
 今回はGitHubのイベントをトリガーに各種Terraformコマンドを実行したいため、`Version control workflow`を選択します。
 
 GitHubを選択して、サンプルコードをPushしたリポジトリを選択します。
 
-![](/images/chapter_5/04-workspace-2.png)
+![](/images/chapter_5/04-03-workspace-02.png)
 
-![](/images/chapter_5/04-workspace-3.png)
+![](/images/chapter_5/04-03-workspace-03.png)
 
 Workspace名は以下を設定します。STGとPRODでWorkspaceを2つ作成します。
 
@@ -73,11 +72,11 @@ Workspace名は以下を設定します。STGとPRODでWorkspaceを2つ作成し
 | PROD環境|  prod-aws-tfc-introductory-book  |
 | STG環境 |  stg-aws-tfc-introductory-book  |
 
-![](/images/chapter_5/04-workspace-4.png)
+![](/images/chapter_5/04-03-workspace-04.png)
 
 Project配下に以下2つのWorkspaceが作成できたらOKです。
 
-![](/images/chapter_5/04-workspace-5.png)
+![](/images/chapter_5/04-03-workspace-05.png)
 
 ## Workspaceの設定
 
@@ -102,7 +101,7 @@ Runを実行する前に、Workspaceにて以下の作業を行う必要があ�
 |  prod-aws-tfc-introductory-book  |  infra/chapter5/prod  |
 |  stg-aws-tfc-introductory-book  |  infra/chapter5/stg  |
 
-![](/images/chapter_5/04-workspace-setting-1.png)
+![](/images/chapter_5/04-04-workspace-setting-1.png)
 
 ### 2. STG WorkspaceのAuto applyの有効化
 
@@ -110,7 +109,7 @@ STG Workspaceは手動承認無しで、mergeされたらDeployしたいためAu
 
 `Workspace名` -> `Settings` -> `General`の順に選択して、`Apply Method`を`Auto apply`に変更します。
 
-![](/images/chapter_5/04-workspace-setting-2.png)
+![](/images/chapter_5/04-04-workspace-setting-2.png)
 
 ## 動作確認
 
@@ -122,6 +121,24 @@ STG Workspaceは手動承認無しで、mergeされたらDeployしたいためAu
 
 `Workspace`の`Runs` -> `Actions` -> `Start new run` で実行できます。
 
-![](/images/chapter_5/04-manual-run.png)
+![](/images/chapter_5/04-05-manual-run-01.png)
+
+任意でRunの実行理由を設定できます。
+
+後で確認するときに、便利なため本番運用時はできるだけ設定しましょう。
+
+今回は省略して、`Start run`を実行します。
+
+![](/images/chapter_5/04-05-manual-run-02.png)
+
+`Confirm & Apply`を選択して、Applyを実行します。
+
+![](/images/chapter_5/04-05-manual-run-03.png)
+
+Applyが成功したら、AWS上でリソースが作成されていることを確認できます。
+
+![](/images/chapter_5/04-05-manual-run-04.png)
+
+![](/images/chapter_5/04-05-manual-run-05.png)
 
 ### GitHubでPRを作成、マージしてデプロイ

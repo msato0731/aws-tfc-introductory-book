@@ -118,6 +118,7 @@ resource "aws_iam_policy" "tfc_policy" {
      "Effect": "Allow",
      "Action": [
        "ec2:*",
+       "ssm:*",
        "sqs:*"
      ],
      "Resource": "*"
