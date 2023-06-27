@@ -142,3 +142,85 @@ Applyが成功したら、AWS上でリソースが作成されていることを
 ![](/images/chapter_5/04-05-manual-run-05.png)
 
 ### GitHubでPRを作成、マージしてデプロイ
+
+mainブランチにPull Requestを出して、自動デプロイを試してましょう。
+
+EC2インスタンスにEnvタグを付与するPull Requestです。
+
+![](/images/chapter_5/04-06-auto-run-01.png)
+
+Pull Requestを作成したタイミングで、PRODとSTGのWorkspaceでPlanが実行されます。
+
+GitHub上に表示される`Check`の`Details`からTerraform CloudのPlan結果にアクセスできます。
+
+![](/images/chapter_5/04-06-auto-run-02.png)
+
+Pull Requestをマージすることで、`Auto apply`を設定のSTG Workspaceは自動でデプロイが実行されます。
+
+PROD Workspaceは`Manual apply`設定のためが必要なため、この時点ではデプロイが実行されません。
+
+![](/images/chapter_5/04-06-auto-run-03.png)
+
+EC2のタグの状態を確認してみても、STGだけ追加されていることが分かります。
+
+```bash
+$ aws ec2 describe-tags --filters "Name=resource-type,Values=instance"
+{
+    "Tags": [
+        {
+            "Key": "Name",
+            "ResourceId": "i-XXXXXXXXXX",
+            "ResourceType": "instance",
+            "Value": "prod-tfc-aws-book"
+        },
+        {
+            "Key": "Env",
+            "ResourceId": "i-YYYYYYYYYYY",
+            "ResourceType": "instance",
+            "Value": "stg"
+        },
+        {
+            "Key": "Name",
+            "ResourceId": "i-YYYYYYYYYYY",
+            "ResourceType": "instance",
+            "Value": "stg-tfc-aws-book"
+        }
+    ]
+}
+```
+
+PROD Workspaceで手動承認を行うことでデプロイが実行されます。
+
+![](/images/chapter_6/04-06-auto-run-04.png)
+
+```bash
+$ aws ec2 describe-tags --filters "Name=resource-type,Values=instance"
+{
+    "Tags": [
+        {
+            "Key": "Env",
+            "ResourceId": "i-08fd0aa16711a4601",
+            "ResourceType": "instance",
+            "Value": "prod"
+        },
+        {
+            "Key": "Name",
+            "ResourceId": "i-08fd0aa16711a4601",
+            "ResourceType": "instance",
+            "Value": "prod-tfc-aws-book"
+        },
+        {
+            "Key": "Env",
+            "ResourceId": "i-0ed77b602855ef9fc",
+            "ResourceType": "instance",
+            "Value": "stg"
+        },
+        {
+            "Key": "Name",
+            "ResourceId": "i-0ed77b602855ef9fc",
+            "ResourceType": "instance",
+            "Value": "stg-tfc-aws-book"
+        }
+    ]
+}
+```
