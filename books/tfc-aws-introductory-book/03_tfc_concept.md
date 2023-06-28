@@ -6,6 +6,10 @@ title: "Chapter3: Terraform Cloudの基本概念"
 本チャプターでは、Terraform Cloudの構成要素であるOrganizationやWorkspaceについて解説します。
 :::
 
+<!-- Run TaskやPrivate Registory Policy Setも追加したい -->
+
+![](/images/chapter_3/01-tfc-concept.png)
+
 ## Organization
 
 Terraform Cloudの一番大きい管理単位です。
@@ -57,7 +61,7 @@ Terraform CloudではRunのタイミングでVMが立ち上がり、VM上で`ter
 
 ## Variables Set
 
-通常の`Variables`はWorkspace単位で設定するため、複数のWorkspaceで使い回すことはできません。。
+通常の`Variables`はWorkspace単位で設定するため、複数のWorkspaceで使い回すことはできません。
 
 `Variables Set`を使用することでOrganization全体であったり、特定のWorkspaceやProjectにVariablesを適用できます。
 
