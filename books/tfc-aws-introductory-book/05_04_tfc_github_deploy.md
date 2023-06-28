@@ -224,3 +224,31 @@ $ aws ec2 describe-tags --filters "Name=resource-type,Values=instance"
     ]
 }
 ```
+
+### 後片付け
+
+### リソース削除
+
+Terraform Cloud上でTerraformで作成したリソースの削除ができます。
+
+`Workspace(<prod/stg>-aws-tfc-introductory-book)` -> `Settings` -> `Destruction and Deletion`を選択します。
+
+`Queue destroy plan`を選択します。
+
+![](/images/chapter_6/04-07-destroy-01.png)
+
+確認画面がでるため、Workspace名を入力して`Queue destroy plan`を選択することでDestroy用のRunが行われます。
+
+Workspaceから`Runs`を選択すると、Destroy用のRunが実行されていることを確認できます。
+
+![](/images/chapter_6/04-07-destroy-02.png)
+
+Runの実行が完了すると、実際にリソースが削除できていることを確認できます。
+
+### Workspace削除
+
+Workspaceの方も削除しておきます。
+
+先程と同様に`Workspace(<prod/stg>-aws-tfc-introductory-book)` -> `Settings` -> `Destruction and Deletion`を選択します。
+
+`Delete Workspace`の項目の`Delete from Terraform Cloud`を選択することで、Workspaceの削除が可能です。
