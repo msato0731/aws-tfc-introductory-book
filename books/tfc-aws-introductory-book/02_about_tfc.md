@@ -12,6 +12,10 @@ Terraform CloudはTerraformを組織で利用するために必要なデプロ�
 
 [HashiCorp Terraform \- Provision & Manage any Infrastructure](https://www.hashicorp.com/products/terraform)
 
+![](/images/chapter_2/tfc-image.png)
+
+> 画像は[Run Task Integretion](https://developer.hashicorp.com/terraform/cloud-docs/integrations/run-tasks)から引用
+
 同様の機能を持ったTerraform Enterpriseという製品もありますが、こちらは自社のサーバーにTerraform Enterpriseをインストールすることで使用できます。
 
 本書では、Terraform Cloudを前提としています。
