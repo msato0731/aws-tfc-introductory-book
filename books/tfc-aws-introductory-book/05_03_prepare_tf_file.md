@@ -7,6 +7,8 @@ title: "　tfファイル作成"
 
 :::
 
+<!-- TODO 作業範囲の図 -->
+
 ## サンプルリポジトリのfork
 
 [サンプルリポジトリ](https://github.com/msato0731/aws-tfc-introductory-book-samples)をforkして、本チャプターのディレクトリに移動します。

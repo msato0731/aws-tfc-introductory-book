@@ -7,6 +7,8 @@ title: "　Terraform CloudとGitHubリポジトリを接続してデプロイを
 
 :::
 
+<!-- TODO 作業範囲の図 -->
+
 ## Projectの作成
 
 Terraform Cloudで、Projectを作成します。
