@@ -3,11 +3,11 @@ title: "　Terraform CloudとGitHubリポジトリを接続してデプロイを
 ---
 
 :::message
-本節では、前節で作成したTerraformコードを使用して、Terraform Cloud経由でリソースをデプロイします。
+本セクションでは、前節で作成したTerraformコードを使用して、Terraform Cloud経由でリソースをデプロイします。
 
 :::
 
-<!-- TODO 作業範囲の図 -->
+![](/images/chapter_5/04-00-diagram.png)
 
 ## Projectの作成
 

@@ -3,11 +3,11 @@ title: "　tfファイル作成"
 ---
 
 :::message
-本節では、Terraform Cloudを使用してデプロイする、EC2とVPC作成用のTerraformファイルを用意します。
+本セクションでは、Terraform Cloudを使用してデプロイする、EC2とVPC作成用のTerraformファイルを用意します。
 
 :::
 
-<!-- TODO 作業範囲の図 -->
+![](/images/chapter_5/03-diagram.png)
 
 ## サンプルリポジトリのfork
 

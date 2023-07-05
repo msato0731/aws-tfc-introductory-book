@@ -3,11 +3,11 @@ title: "　Terraform Cloud用IAMロール作成"
 ---
 
 :::message
-本節では、Terraform CloudでAWSを操作するためのIAMロールを作成します。
+本セクションでは、Terraform CloudでAWSを操作するためのIAMロールを作成します。
 
 :::
 
-![](/images/chapter_5/02-iam-role-archi.png)
+![](/images/chapter_5/02-diagram.png)
 
 ## Terraform Cloud用IAMロールの作成
 
