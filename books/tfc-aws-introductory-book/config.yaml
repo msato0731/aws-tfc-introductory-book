@@ -1,7 +1,7 @@
 title: "【執筆中】AWSで始めるTerraform Cloud入門"
 summary: "Terraform Cloudには、組織でTerraformを運用する際に便利な機能が様々あります。Terraformは知っているけど、Terraform Cloudは知らない人向けにAWSを使ってTerraform Cloudの各種機能を説明します。"
 topics: ["aws", "terraform"]
-published: false
+published: true
 price: 0 # 有料の場合200〜5000
 # 本に含めるチャプターを順番に並べましょう
 chapters:
