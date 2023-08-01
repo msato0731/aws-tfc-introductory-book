@@ -1,4 +1,4 @@
-title: "【執筆中】AWSで始めるTerraform Cloud入門"
+title: "AWSで始めるTerraform Cloud入門"
 summary: "Terraform Cloudには、組織でTerraformを運用する際に便利な機能が様々あります。Terraformは知っているけど、Terraform Cloudは知らない人向けにAWSを使ってTerraform Cloudの各種機能を説明します。"
 topics: ["aws", "terraform"]
 published: true
@@ -14,3 +14,5 @@ chapters:
   - 05_02_aws_iam_role_create
   - 05_03_prepare_tf_file
   - 05_04_tfc_github_deploy
+  - 06_00_policy
+  - 07_00_runtask
