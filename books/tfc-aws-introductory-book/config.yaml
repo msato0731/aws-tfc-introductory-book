@@ -14,5 +14,6 @@ chapters:
   - 05_02_aws_iam_role_create
   - 05_03_prepare_tf_file
   - 05_04_tfc_github_deploy
+  - 06_00_tfc_function
   - 06_00_policy
   - 07_00_runtask
