@@ -15,5 +15,12 @@ chapters:
   - 05_03_prepare_tf_file
   - 05_04_tfc_github_deploy
   - 06_00_tfc_function
-  - 06_00_policy
-  - 07_00_runtask
+  - 06_01_workspace_explorer
+  - 06_02_cost_estimation
+  - 06_03_drift_detection
+  - 06_04_continuous_validation
+  - 06_05_ephemeral_workspaces
+  - 06_06_private_registry
+  - 06_07_no_code_provisioning
+  - 06_08_policy_as_code
+  - 06_09_run_task
