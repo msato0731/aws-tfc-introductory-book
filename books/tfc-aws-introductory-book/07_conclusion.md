@@ -13,4 +13,4 @@ title: "Chapter7: おわりに"
 
 この本が役に立ったら、「いいね」や「ツイート」お願いします。
 
-フィードバックや要望に関しては、XのDMやこの本のGitHubのIssue等でもらえると幸いです。
+フィードバックや要望に関しては、[X(@chari7311)](https://twitter.com/chari7311)のDMや[この本のGitHub](https://github.com/msato0731/zenn-contents)のIssue等でもらえると幸いです。
