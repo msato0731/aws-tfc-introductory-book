@@ -24,6 +24,14 @@ title: "Chapter1: はじめに"
 - Terraformの基礎知識を持っている方
 - AWSの基礎知識を持っている方
 
+## 注記
+
+本書内のハンズオンは、macOS上で動作検証をしました。
+
+そのため、Windowsユーザーの方はコマンドの読み替えが必要が部分があります。
+
+読み替えを行いたくない場合は、[WSL](https://learn.microsoft.com/ja-jp/windows/wsl/install)や[Cloud9](https://aws.amazon.com/jp/cloud9/)上でハンズオンを実施してください。
+
 ## サンプルコード
 
 本書のサンプルコードは以下にあります。

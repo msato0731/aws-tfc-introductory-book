@@ -166,7 +166,8 @@ PROD Workspaceは`Manual apply`設定のためが必要なため、この時点�
 EC2のタグの状態を確認してみても、STGだけ追加されていることが分かります。
 
 ```bash
-$ aws ec2 describe-tags --filters "Name=resource-type,Values=instance"
+$ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
+"Name=value,Values=prod-tfc-aws-book,stg-tfc-aws-book"
 {
     "Tags": [
         {
@@ -196,30 +197,31 @@ PROD Workspaceで手動承認を行うことでデプロイが実行されます
 ![](/images/chapter_5/04-06-auto-run-04.png)
 
 ```bash
-$ aws ec2 describe-tags --filters "Name=resource-type,Values=instance"
+$ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
+"Name=value,Values=prod-tfc-aws-book,stg-tfc-aws-book"
 {
     "Tags": [
         {
             "Key": "Env",
-            "ResourceId": "i-08fd0aa16711a4601",
+            "ResourceId": "i-XXXXXXXXXX",
             "ResourceType": "instance",
             "Value": "prod"
         },
         {
             "Key": "Name",
-            "ResourceId": "i-08fd0aa16711a4601",
+            "ResourceId": "i-XXXXXXXXXX",
             "ResourceType": "instance",
             "Value": "prod-tfc-aws-book"
         },
         {
             "Key": "Env",
-            "ResourceId": "i-0ed77b602855ef9fc",
+            "ResourceId": "i-YYYYYYYYYYY",
             "ResourceType": "instance",
             "Value": "stg"
         },
         {
             "Key": "Name",
-            "ResourceId": "i-0ed77b602855ef9fc",
+            "ResourceId": "i-YYYYYYYYYYY",
             "ResourceType": "instance",
             "Value": "stg-tfc-aws-book"
         }
