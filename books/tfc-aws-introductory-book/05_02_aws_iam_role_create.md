@@ -311,6 +311,16 @@ Workspace `tfc-iam-role-test` -> Variablesの順に選択します。
 
 ![](/images/chapter_5/02-aws-iam-role-4.png)
 
+:::message alert
+よくある間違いとして、Variable categoryを誤って、**Terraform variable**にしてしまうケースがあります。
+上記のVariableは`Environment variable`で設定します。
+![](/images/chapter_5/02-aws-iam-role-4-variables.png)
+
+以下のようなエラーが出る場合は、Variable Categoryを間違えている可能性が高いため、Variable categoryを見直してみてください。
+`Warning: Value for undeclared variable`
+`The root module does not declare a variable named "TFC_AWS_RUN_ROLE_ARN"`
+:::
+
 Variablesの設定ができたら、Terraformを実行します。
 Terraform Cloud上でterraformコマンドが実行されるため、ローカルにAWS認証情報は不要です。
 
