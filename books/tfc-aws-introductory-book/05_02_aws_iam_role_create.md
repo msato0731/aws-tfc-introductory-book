@@ -206,7 +206,7 @@ terraform {
   cloud {
     organization = "<Organization名>" # 書き換える
     workspaces {
-      name = "tfc-iam-role-test"
+      name = "tfc-iam-role-test" # Organization内で一意な必要あり、必要に応じて置き換える
     }
   }
 }
@@ -223,6 +223,10 @@ resource "aws_sqs_queue" "my_queue" {
 ローカルからCLIでTerraform Cloudを利用する場合(CLI Driven Workflow)、`cloud`ブロックの設定が必要です。
 
 Organization名は自身の環境にあった名前に書き換えてください。
+
+Workspace名(`tfc-iam-role-test`の部分)、Workspace名はOrganization内で一意である必要があります。
+
+すでに同じ名前のWorkspaceがある場合は、置き換えてください。
 
 :::message
 本書で主に使用するVCS Driven Workflowでは、`cloud`ブロックの設定は無視されWorkspace設定に従って動作します。
