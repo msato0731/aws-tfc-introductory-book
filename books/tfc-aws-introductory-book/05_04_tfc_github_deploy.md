@@ -159,7 +159,7 @@ GitHub上に表示される`Check`の`Details`からTerraform CloudのPlan結果
 
 Pull Requestをマージすることで、`Auto apply`を設定のSTG Workspaceは自動でデプロイが実行されます。
 
-PROD Workspaceは`Manual apply`設定のためが必要なため、この時点ではデプロイが実行されません。
+PROD Workspaceは`Manual apply`設定で手動承認が必要なため、この時点ではデプロイが実行されません。
 
 ![](/images/chapter_5/04-06-auto-run-03.png)
 
@@ -248,6 +248,13 @@ Workspaceから`Runs`を選択すると、Destroy用のRunが実行されてい�
 ![](/images/chapter_5/04-07-destroy-02.png)
 
 Runの実行が完了すると、実際にリソースが削除できていることを確認できます。
+
+:::message alert
+PROD Workspaceは手動承認が必要な設定にしています。
+これはリソース削除時も同様です。
+上記手順で、キューにDestroy用のRunが追加されるため、「Terraform Cloudのコンソールからデプロイ
+」と同様に手動承認を行ってください。
+:::
 
 ### Workspace削除
 
