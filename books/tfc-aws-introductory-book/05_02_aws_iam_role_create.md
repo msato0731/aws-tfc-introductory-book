@@ -134,9 +134,7 @@ resource "aws_iam_role_policy_attachment" "tfc_policy_attachment" {
 }
 ```
 
-主に、Terraform Cloud用のIAMロールとアタッチするIAMポリシーを定義しています。
-
-OIDC用のサムプリントは、べた書きしなくても`data "tls_certificate"`で取得することが可能です。
+Terraform Cloud用のIAMロールとアタッチするIAMポリシーを定義しています。
 
 今回はTerraform CloudのOrganizationのすべてのWorkspaceに対して、`assume_role_policy`でIAM Roleの引き受けを許可しています。
 
@@ -197,6 +195,8 @@ apply時の出力されるOutputsの`role_arn`をこの後使うのため、メ�
 
 IAMロールを作成できたら、動作確認をします。
 
+#### 動作確認用のtfファイル用意
+
 動作確認では、SQSを作成します。
 
 以下のファイルを用意します。
@@ -206,7 +206,7 @@ terraform {
   cloud {
     organization = "<Organization名>" # 書き換える
     workspaces {
-      name = "tfc-iam-role-test"
+      name = "tfc-iam-role-test" # Organization内で一意な必要あり、必要に応じて置き換える
     }
   }
 }
@@ -224,6 +224,10 @@ resource "aws_sqs_queue" "my_queue" {
 
 Organization名は自身の環境にあった名前に書き換えてください。
 
+Workspace名(`tfc-iam-role-test`の部分)、Workspace名はOrganization内で一意である必要があります。
+
+すでに同じ名前のWorkspaceがある場合は、置き換えてください。
+
 :::message
 本書で主に使用するVCS Driven Workflowでは、`cloud`ブロックの設定は無視されWorkspace設定に従って動作します。
 
@@ -232,11 +236,56 @@ Organization名は自身の環境にあった名前に書き換えてくださ�
 [Terraform Cloud Settings \- Terraform CLI \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cli/cloud/settings)
 :::
 
-Terraform Cloudを使用したことがない場合は、以下のコマンドを実行してローカルからTerraform Cloudに接続するための認証情報を作成します。
+#### ローカルからTerraform Cloudへの接続
+
+以下のコマンドを実行してローカルからTerraform Cloudに接続するための認証情報を作成します。
+
+`terraform login`コマンドを実行することで、Terraform Cloudのトークンを作成しローカルに保存することができます。
 
 ```bash
-terraform login
+$ terraform login
+Terraform will request an API token for app.terraform.io using your browser.
+
+If login is successful, Terraform will store the token in plain text in
+the following file for use by subsequent commands:
+    /Users/hoge/.terraform.d/credentials.tfrc.json
+
+Do you want to proceed?
+  Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+
+---------------------------------------------------------------------------------
+
+Terraform must now open a web browser to the tokens page for app.terraform.io.
+
+If a browser does not open this automatically, open the following URL to proceed:
+    https://app.terraform.io/app/settings/tokens?source=terraform-login
+
+
+---------------------------------------------------------------------------------
+
+Generate a token using your browser, and copy-paste it into this prompt.
+
+Terraform will store the token in plain text in the following file
+for use by subsequent commands:
+    /Users/hoge/.terraform.d/credentials.tfrc.json
+
+Token for app.terraform.io:
+  Enter a value: <作成したトークンを入力>
 ```
+
+コマンドを実行することで、ブラウザが立ち上がりTerraform Cloudのトークン作成画面に遷移します。
+(自動でブラウザが立ち上がらない場合は、上記コマンドの出力結果に表示されるリンク(`https://app.terraform.io/app/settings/tokens?source=terraform-login`)にブラウザでアクセスしてください。)
+
+![](/images/chapter_5/02-aws-iam-role-terraform-token-1.png)
+![](/images/chapter_5/02-aws-iam-role-terraform-token-2.png)
+
+
+Terraform Cloudのコンソール上で作成したトークンを、先程のコマンドを実行したコンソールに貼り付けたら完了です。
+
+#### Workspaceとリソースの作成
 
 次にテスト用のリソースディレクトリに移動して、Workspaceを作成します。
 
@@ -262,6 +311,16 @@ Workspace `tfc-iam-role-test` -> Variablesの順に選択します。
 
 ![](/images/chapter_5/02-aws-iam-role-4.png)
 
+:::message alert
+よくある間違いとして、Variable categoryを誤って、**Terraform variable**にしてしまうケースがあります。
+上記のVariableは`Environment variable`で設定します。
+![](/images/chapter_5/02-aws-iam-role-4-variables.png)
+
+以下のようなエラーが出る場合は、Variable Categoryを間違えている可能性が高いため、Variable categoryを見直してみてください。
+`Warning: Value for undeclared variable`
+`The root module does not declare a variable named "TFC_AWS_RUN_ROLE_ARN"`
+:::
+
 Variablesの設定ができたら、Terraformを実行します。
 Terraform Cloud上でterraformコマンドが実行されるため、ローカルにAWS認証情報は不要です。
 
@@ -273,6 +332,8 @@ terraform apply
 Terraformで定義した、SQSキュー`my-queue`が作成されたことが確認できたら、成功です。
 
 ![](/images/chapter_5/02-aws-iam-role-5.png)
+
+### 動作確認用のリソース削除
 
 確認できたら、テスト用のリソースは削除しておきます。
 

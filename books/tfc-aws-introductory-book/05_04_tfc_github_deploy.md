@@ -147,7 +147,15 @@ Applyが成功したら、AWS上でリソースが作成されていることを
 
 mainブランチにPull Requestを出して、自動デプロイを試してましょう。
 
-EC2インスタンスにEnvタグを付与するPull Requestです。
+自動デプロイを試すためにはWorkspace内で1度Runを実行する必要があります。
+
+>Note: A workspace with no runs will not accept new runs via VCS webhook. At least one run must be manually queued to confirm that the workspace is ready for further runs.
+
+[引用元](https://developer.hashicorp.com/terraform/cloud-docs/run/ui)
+
+そのため、前の手順を参考にPROD WorkspaceとSTG Workspaceでそれぞれ一度コンソールからデプロイを実行してください。
+
+下記の通りに、EC2インスタンスにEnvタグを付与するPull Requestを作成します。
 
 ![](/images/chapter_5/04-06-auto-run-01.png)
 
@@ -159,13 +167,13 @@ GitHub上に表示される`Check`の`Details`からTerraform CloudのPlan結果
 
 Pull Requestをマージすることで、`Auto apply`を設定のSTG Workspaceは自動でデプロイが実行されます。
 
-PROD Workspaceは`Manual apply`設定のためが必要なため、この時点ではデプロイが実行されません。
+PROD Workspaceは`Manual apply`設定で手動承認が必要なため、この時点ではデプロイが実行されません。
 
 ![](/images/chapter_5/04-06-auto-run-03.png)
 
 EC2のタグの状態を確認してみても、STGだけ追加されていることが分かります。
 
-```bash
+```diff bash
 $ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
 "Name=value,Values=prod-tfc-aws-book,stg-tfc-aws-book"
 {
@@ -176,12 +184,12 @@ $ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
             "ResourceType": "instance",
             "Value": "prod-tfc-aws-book"
         },
-        {
-            "Key": "Env",
-            "ResourceId": "i-YYYYYYYYYYY",
-            "ResourceType": "instance",
-            "Value": "stg"
-        },
++        {
++            "Key": "Env",
++            "ResourceId": "i-YYYYYYYYYYY",
++            "ResourceType": "instance",
++            "Value": "stg"
++        },
         {
             "Key": "Name",
             "ResourceId": "i-YYYYYYYYYYY",
@@ -196,17 +204,17 @@ PROD Workspaceで手動承認を行うことでデプロイが実行されます
 
 ![](/images/chapter_5/04-06-auto-run-04.png)
 
-```bash
+```diff bash
 $ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
 "Name=value,Values=prod-tfc-aws-book,stg-tfc-aws-book"
 {
     "Tags": [
-        {
-            "Key": "Env",
-            "ResourceId": "i-XXXXXXXXXX",
-            "ResourceType": "instance",
-            "Value": "prod"
-        },
++        {
++            "Key": "Env",
++            "ResourceId": "i-XXXXXXXXXX",
++            "ResourceType": "instance",
++            "Value": "prod"
++        },
         {
             "Key": "Name",
             "ResourceId": "i-XXXXXXXXXX",
@@ -248,6 +256,12 @@ Workspaceから`Runs`を選択すると、Destroy用のRunが実行されてい�
 ![](/images/chapter_5/04-07-destroy-02.png)
 
 Runの実行が完了すると、実際にリソースが削除できていることを確認できます。
+
+:::message
+PROD Workspaceは手動承認が必要な設定にしています。
+これはリソース削除時も同様です。
+上記手順で、キューにDestroy用のRunが追加されるため、「Terraform Cloudのコンソールからデプロイ」と同様に手動承認を行ってください。
+:::
 
 ### Workspace削除
 
