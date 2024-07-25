@@ -29,6 +29,6 @@ Continuous validationを利用することで、planとapplyのタイミング�
 
 ## 参考
 
-- [Health \- Terraform Cloud \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/health?_gl=1*rszby1*_ga*Mzg1NTY4ODI4LjE2NTQxNTU5NjI.*_ga_P7S46ZYEKW*MTY2NzA5NDYxNy4yMC4xLjE2NjcwOTUwNTYuMC4wLjA.)
+- [Health \- HCP Terraform \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/health?_gl=1*rszby1*_ga*Mzg1NTY4ODI4LjE2NTQxNTU5NjI.*_ga_P7S46ZYEKW*MTY2NzA5NDYxNy4yMC4xLjE2NjcwOTUwNTYuMC4wLjA.)
 - [Checks \- Configuration Language \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/language/checks?product_intent=terraform)
 - [Terraform version 1\.5の新機能達を使ってみた \| DevelopersIO](https://dev.classmethod.jp/articles/terraform-version-1-5/)

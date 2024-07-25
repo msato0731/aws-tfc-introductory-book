@@ -1,9 +1,9 @@
 ---
-title: "　Terraform CloudとGitHubリポジトリを接続してデプロイを実行"
+title: "　HCP TerraformとGitHubリポジトリを接続してデプロイを実行"
 ---
 
 :::message
-本セクションでは、前節で作成したTerraformコードを使用して、Terraform Cloud経由でリソースをデプロイします。
+本セクションでは、前節で作成したTerraformコードを使用して、HCP Terraform経由でリソースをデプロイします。
 
 :::
 
@@ -11,7 +11,7 @@ title: "　Terraform CloudとGitHubリポジトリを接続してデプロイを
 
 ## Projectの作成
 
-Terraform Cloudで、Projectを作成します。
+HCP Terraformで、Projectを作成します。
 
 ![](/images/chapter_5/04-01-project-01.png)
 
@@ -25,11 +25,11 @@ Project nameは以下とします。
 
 ## Variables Setの作成
 
-AWSリソースをProject配下のWorkspaceが操作できるように、Terraform Cloud用のIAM Role ARNを持つVariables Setを作成します。
+AWSリソースをProject配下のWorkspaceが操作できるように、HCP Terraform用のIAM Role ARNを持つVariables Setを作成します。
 
 作成したVariables SetをProjectに割り当てることで、配下のWorkspaceでAWSリソースの操作ができるようになります。
 
-IAM Role ARNは前の節「Terraform Cloud用IAMロール作成」で使用したARNと同じです。
+IAM Role ARNは前の節「HCP Terraform用IAMロール作成」で使用したARNと同じです。
 
 AWS CLIで確認する場合は、以下のコマンドで確認できます。
 
@@ -37,7 +37,7 @@ AWS CLIで確認する場合は、以下のコマンドで確認できます。
 aws iam get-role --role-name tfc-role --query Role.Arn --output text
 ```
 
-Terraform Cloudのポータルサイト上で、`Settings` -> `Variables sets`の順に選択します。
+HCP Terraformのポータルサイト上で、`Settings` -> `Variables sets`の順に選択します。
 
 以下のように必要な項目を設定して、Variables setsを作成します。
 
@@ -115,11 +115,11 @@ STG Workspaceは手動承認無しで、mergeされたらDeployしたいためAu
 
 ## 動作確認
 
-### Terraform Cloudのコンソールからデプロイ
+### HCP Terraformのコンソールからデプロイ
 
 リソースデプロイの準備ができました。実際にデプロイしてみましょう。
 
-まずは、Terraform Cloudのコンソールからデプロイを実行してみます。
+まずは、HCP Terraformのコンソールからデプロイを実行してみます。
 
 `Workspace`の`Runs` -> `Actions` -> `Start new run` で実行できます。
 
@@ -161,7 +161,7 @@ mainブランチにPull Requestを出して、自動デプロイを試してま�
 
 Pull Requestを作成したタイミングで、PRODとSTGのWorkspaceでPlanが実行されます。
 
-GitHub上に表示される`Check`の`Details`からTerraform CloudのPlan結果にアクセスできます。
+GitHub上に表示される`Check`の`Details`からHCP TerraformのPlan結果にアクセスできます。
 
 ![](/images/chapter_5/04-06-auto-run-02.png)
 
@@ -241,7 +241,7 @@ $ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
 
 ### リソース削除
 
-Terraform Cloud上でTerraformで作成したリソースの削除ができます。
+HCP Terraform上でTerraformで作成したリソースの削除ができます。
 
 `Workspace(<prod/stg>-aws-tfc-introductory-book)` -> `Settings` -> `Destruction and Deletion`を選択します。
 
@@ -260,7 +260,7 @@ Runの実行が完了すると、実際にリソースが削除できている�
 :::message
 PROD Workspaceは手動承認が必要な設定にしています。
 これはリソース削除時も同様です。
-上記手順で、キューにDestroy用のRunが追加されるため、「Terraform Cloudのコンソールからデプロイ」と同様に手動承認を行ってください。
+上記手順で、キューにDestroy用のRunが追加されるため、「HCP Terraformのコンソールからデプロイ」と同様に手動承認を行ってください。
 :::
 
 ### Workspace削除
@@ -269,6 +269,6 @@ Workspaceの方も削除しておきます。
 
 先程と同様に`Workspace(<prod/stg>-aws-tfc-introductory-book)` -> `Settings` -> `Destruction and Deletion`を選択します。
 
-`Delete Workspace`の項目の`Delete from Terraform Cloud`を選択することで、Workspaceの削除が可能です。
+`Delete Workspace`の項目の`Delete from HCP Terraform`を選択することで、Workspaceの削除が可能です。
 
 ![](/images/chapter_5/04-07-destroy-03.png)

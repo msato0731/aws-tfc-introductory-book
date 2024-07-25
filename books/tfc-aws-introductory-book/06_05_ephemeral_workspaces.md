@@ -22,5 +22,5 @@ Ephemeral workspacesを使うことで、少ない手間で自動削除を実現
 
 ## 参考
 
--[Destruction and Deletion \- Workspaces \- Terraform Cloud \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/settings/deletion)
-- [\[アップデート\]Terraform Cloudにリソースの自動削除ができるephemeral workspaces機能が追加されました\(パブリックベータ\) \| DevelopersIO](https://dev.classmethod.jp/articles/tfc-ephemeral-workspaces/)
+-[Destruction and Deletion \- Workspaces \- HCP Terraform \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/settings/deletion)
+- [\[アップデート\]HCP Terraformにリソースの自動削除ができるephemeral workspaces機能が追加されました\(パブリックベータ\) \| DevelopersIO](https://dev.classmethod.jp/articles/tfc-ephemeral-workspaces/)

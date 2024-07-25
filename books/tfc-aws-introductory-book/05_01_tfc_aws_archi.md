@@ -10,13 +10,13 @@ title: "　ハンズオンで構築する構成"
 
 ## 全体構成
 
-Terraform CloudのWorkspaceはGitHubと連携させます。
+HCP TerraformのWorkspaceはGitHubと連携させます。
 
 AWS環境を本番とSTGで分けている想定で、Workspaceをそれぞの環境ごとに作成します。
 
 本来なら環境ごとにAWSアカウントを分割したほうが良いですが、ハンズオンの都合で1つのAWSアカウントに2つの環境がある想定とします。
 
-Terraform CloudはIAM Roleを使用して、各AWSリソースの操作を行います。
+HCP TerraformはIAM Roleを使用して、各AWSリソースの操作を行います。
 
 1つのAWSアカウントのため、IAM Roleも1つだけ(※1)用意してVariables Setに登録してそれぞれのWorkspaceで使用できるようにします。
 
@@ -49,8 +49,8 @@ VPCを本番/STGの環境ごとに分割します。
 慎重にデプロイ作業を行いため、手動承認を行いたいケースもあります。
 そのため、本番は手動承認ありのフローとしました。
 
-今回はmainブランチをリリース用のブランチとして使用しますが、Terraform CloudではWorkspaceごとにブランチを設定できるため環境ごとにブランチを分ける方法も可能です。
+今回はmainブランチをリリース用のブランチとして使用しますが、HCP TerraformではWorkspaceごとにブランチを設定できるため環境ごとにブランチを分ける方法も可能です。
 
-<!-- 絵のterraform applyとかしている枠にTerraform Cloudのアイコンを付ける -->
+<!-- 絵のterraform applyとかしている枠にHCP Terraformのアイコンを付ける -->
 
 ![](/images/chapter_5/01-tfc-aws-book-archi-3.png)

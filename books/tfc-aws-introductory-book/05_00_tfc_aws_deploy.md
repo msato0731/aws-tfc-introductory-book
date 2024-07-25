@@ -1,15 +1,15 @@
 ---
-title: "Chapter5: Terraform CloudでAWSにリソースをデプロイする"
+title: "Chapter5: HCP TerraformでAWSにリソースをデプロイする"
 ---
 
 :::message
 
-本チャプターでは、Terraform Cloudを利用してAWS上にリソースをデプロイする手順を解説します。
+本チャプターでは、HCP Terraformを利用してAWS上にリソースをデプロイする手順を解説します。
 
 また、以下についても触れていきます。
 
-- Terraform Cloudを使用した、AWSの認証情報の管理方法
-- Terraform Cloudを使用したStateファイルの管理方法
-- GitHubとTerraform Cloudの連携方法
+- HCP Terraformを使用した、AWSの認証情報の管理方法
+- HCP Terraformを使用したStateファイルの管理方法
+- GitHubとHCP Terraformの連携方法
 
 :::

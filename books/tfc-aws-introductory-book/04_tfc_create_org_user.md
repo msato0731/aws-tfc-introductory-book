@@ -1,22 +1,22 @@
 ---
-title: "Chapter4: Terraform CloudとAWSアカウントの準備"
+title: "Chapter4: HCP TerraformとAWSアカウントの準備"
 ---
 
 :::message
-本チャプターでは、Terraform CloudのOrganization/UserとAWSアカウントを用意します。
+本チャプターでは、HCP TerraformのOrganization/UserとAWSアカウントを用意します。
 
 すでに用意できている場合は、スキップしてください。
 :::
 
-## Terraform Cloud Organization・User作成
+## HCP Terraform Organization・User作成
 
-Terraform CloudにはFreeプランがあります。
+HCP TerraformにはFreeプランがあります。
 
 Freeプランには一部の機能に制限はありますが、利用期間の制限はありません。
 
 本書の内容は、基本的にFreeプランで試すことができます。
 
-以下のリンクから Terraform Cloudのアカウントを作成します。
+以下のリンクから HCP Terraformのアカウントを作成します。
 
 [https://app.terraform.io/public/signup/account](https://app.terraform.io/public/signup/account)
 
@@ -36,7 +36,7 @@ Freeプランには一部の機能に制限はありますが、利用期間の�
 
 ![](/images/chapter_4/tfc-create-account-4.png)
 
-`Create a new Workspace`の画面が出てきたら、Organizationの作成とTerraform Cloudユーザーの作成は完了です。
+`Create a new Workspace`の画面が出てきたら、Organizationの作成とHCP Terraformユーザーの作成は完了です。
 
 ![](/images/chapter_4/tfc-create-account-5.png)
 

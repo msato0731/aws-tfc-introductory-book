@@ -25,5 +25,5 @@ OPAまたはSentinelで定義したPolicyをチェックする機能です。
 
 ##　参考
 
-- [(チュートリアル)Enforce OPA policies using Terraform Cloud and Styra \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/tutorials/cloud/validation-enforcement)
-- [Terraform CloudのOPA Policy適用のチュートリアルをやってみた \| DevelopersIO](https://dev.classmethod.jp/articles/terraform-cloud-opa-policy-tutorial/)
+- [(チュートリアル)Enforce OPA policies using HCP Terraform and Styra \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/tutorials/cloud/validation-enforcement)
+- [HCP TerraformのOPA Policy適用のチュートリアルをやってみた \| DevelopersIO](https://dev.classmethod.jp/articles/terraform-cloud-opa-policy-tutorial/)

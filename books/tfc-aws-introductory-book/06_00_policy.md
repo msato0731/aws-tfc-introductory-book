@@ -6,7 +6,7 @@ title: "【準備中】Chapter6: Policyを適用する"
 <!-- https://developer.hashicorp.com/terraform/cloud-docs/policy-enforcement -->
 
 <!-- セクション -->
-<!-- - Terraform CloudのPolicy機能　-->
+<!-- - HCP TerraformのPolicy機能　-->
 <!-- -- Policyの必要性　 -->
 <!-- -- OPAとSentinel　 -->
 <!-- -- Policy Set  -->
