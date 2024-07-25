@@ -22,6 +22,6 @@ Drift detectionを利用することで、ドリフトを早期に検知する�
 
 ## 参考
 
-- [Health \- Terraform Cloud \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/health?_gl=1*rszby1*_ga*Mzg1NTY4ODI4LjE2NTQxNTU5NjI.*_ga_P7S46ZYEKW*MTY2NzA5NDYxNy4yMC4xLjE2NjcwOTUwNTYuMC4wLjA.)
+- [Health \- HCP Terraform \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/health?_gl=1*rszby1*_ga*Mzg1NTY4ODI4LjE2NTQxNTU5NjI.*_ga_P7S46ZYEKW*MTY2NzA5NDYxNy4yMC4xLjE2NjcwOTUwNTYuMC4wLjA.)
 - [(チュートリアル)Manage resource drift \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/tutorials/state/resource-drift)
-- [Terraform CloudでAWSリソースの手動変更を検出してみる\(Drift Detection\) \| DevelopersIO](https://dev.classmethod.jp/articles/terraform-cloud-drift-detection/)
+- [HCP TerraformでAWSリソースの手動変更を検出してみる\(Drift Detection\) \| DevelopersIO](https://dev.classmethod.jp/articles/terraform-cloud-drift-detection/)

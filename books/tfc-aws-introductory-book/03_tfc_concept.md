@@ -1,9 +1,9 @@
 ---
-title: "Chapter3: Terraform Cloudの基本概念"
+title: "Chapter3: HCP Terraformの基本概念"
 ---
 
 :::message
-本チャプターでは、Terraform Cloudの構成要素であるOrganizationやWorkspaceについて解説します。
+本チャプターでは、HCP Terraformの構成要素であるOrganizationやWorkspaceについて解説します。
 :::
 
 <!-- Run TaskやPrivate Registory Policy Setも追加したい -->
@@ -12,7 +12,7 @@ title: "Chapter3: Terraform Cloudの基本概念"
 
 ## Organization
 
-Terraform Cloudの一番大きい管理単位です。
+HCP Terraformの一番大きい管理単位です。
 
 料金プランはOrganization単位で選択します。
 
@@ -47,7 +47,7 @@ Variablesには2種類あります。
 
 ### Environment Variables
 
-Terraform CloudではRunのタイミングでVMが立ち上がり、VM上で`terraform plan`や`terraform apply`が実行されます。
+HCP TerraformではRunのタイミングでVMが立ち上がり、VM上で`terraform plan`や`terraform apply`が実行されます。
 
 `Environment Variables`を設定することで、VMに変数を渡すことができます。
 

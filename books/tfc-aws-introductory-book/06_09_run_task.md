@@ -14,9 +14,9 @@ Runの際に、サードパーティのツールとサービスを統合でき�
 
 ## ユースケース
 
-- サードパーティツールとTerraform Cloudを連携したい
+- サードパーティツールとHCP Terraformを連携したい
 
 ## 参考
 
-- [Run Tasks \- Workspaces \- Terraform Cloud \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/settings/run-tasks)
-- [Terraform Cloudと統合してSnyk IaCを実行してみた \| DevelopersIO](https://dev.classmethod.jp/articles/snyk-saas-integration-terraform-cloud-overwiew/)
+- [Run Tasks \- Workspaces \- HCP Terraform \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/settings/run-tasks)
+- [HCP Terraformと統合してSnyk IaCを実行してみた \| DevelopersIO](https://dev.classmethod.jp/articles/snyk-saas-integration-terraform-cloud-overwiew/)

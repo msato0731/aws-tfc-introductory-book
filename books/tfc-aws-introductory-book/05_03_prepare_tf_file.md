@@ -3,7 +3,7 @@ title: "　tfファイル作成"
 ---
 
 :::message
-本セクションでは、Terraform Cloudを使用してデプロイする、EC2とVPC作成用のTerraformファイルを用意します。
+本セクションでは、HCP Terraformを使用してデプロイする、EC2とVPC作成用のTerraformファイルを用意します。
 
 :::
 

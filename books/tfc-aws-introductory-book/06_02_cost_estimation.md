@@ -23,4 +23,4 @@ Plan時に実行されます。
 
 ## 参考
 
-- [Overview \- Cost Estimation \- Terraform Cloud \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/cost-estimation)
+- [Overview \- Cost Estimation \- HCP Terraform \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/cost-estimation)

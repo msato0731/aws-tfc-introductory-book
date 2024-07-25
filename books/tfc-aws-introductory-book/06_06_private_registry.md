@@ -23,7 +23,7 @@ Terraform Provider/Module を組織内に共有する機能です。
 | 項目        | Terraform Registry | Private Registry                                         |
 |-----------|--------------------|----------------------------------------------------------|
 | 公開範囲      | Public(誰でも)        | Private(組織内)                                             |
-| 対応しているVCS | GitHub             | Terraform Cloudが対応しているVCS<br/>(GitHub、GitLab、Bitbucket等) |
+| 対応しているVCS | GitHub             | HCP Terraformが対応しているVCS<br/>(GitHub、GitLab、Bitbucket等) |
 
 ## ユースケース
 
@@ -32,5 +32,5 @@ Terraform Provider/Module を組織内に共有する機能です。
 
 ## 参考
 
-- [プライベート レジストリ \- Terraform Cloud \| テラフォーム \| HashiCorp開発者](https://developer.hashicorp.com/terraform/cloud-docs/registry)
-- [Terraform CloudのPrivate Registryを使ってmoduleを組織内にだけ公開してみる \| DevelopersIO](https://dev.classmethod.jp/articles/terraform-cloud-private-registry-module-publish/)
+- [プライベート レジストリ \- HCP Terraform \| テラフォーム \| HashiCorp開発者](https://developer.hashicorp.com/terraform/cloud-docs/registry)
+- [HCP TerraformのPrivate Registryを使ってmoduleを組織内にだけ公開してみる \| DevelopersIO](https://dev.classmethod.jp/articles/terraform-cloud-private-registry-module-publish/)

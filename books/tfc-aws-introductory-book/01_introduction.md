@@ -4,7 +4,7 @@ title: "Chapter1: はじめに"
 
 ## 本書について
 
-本書は、Terraformは使ったことはあるがTerraform Cloudは使ったことがないという方を対象に、**Terraform Cloudに関する知識がない状態から、本番環境でTerraform Cloudを使ったTerraform運用をできる**ようになることを目的としています。
+本書は、Terraformは使ったことはあるがHCP Terraformは使ったことがないという方を対象に、**HCP Terraformに関する知識がない状態から、本番環境でHCP Terraformを使ったTerraform運用をできる**ようになることを目的としています。
 
 なお、Terraformで管理するリソースはAWSを前提としています。
 
@@ -12,8 +12,8 @@ title: "Chapter1: はじめに"
 
 本書では、以下のような読者の方を対象としています。
 
-- Terraform Cloudでどのようなことができるのか知りたい方
-- Terraform Cloudの概要は知っているが、具体的にどう使うのかを知りたい方
+- HCP Terraformでどのようなことができるのか知りたい方
+- HCP Terraformの概要は知っているが、具体的にどう使うのかを知りたい方
 - TerraformのCI/CDパイプラインを検討している方
 - 組織のTerraform運用にガバナンスを効かせたい方
 

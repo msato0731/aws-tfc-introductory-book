@@ -1,27 +1,27 @@
 ---
-title: "　Terraform Cloud用IAMロール作成"
+title: "　HCP Terraform用IAMロール作成"
 ---
 
 :::message
-本セクションでは、Terraform CloudでAWSを操作するためのIAMロールを作成します。
+本セクションでは、HCP TerraformでAWSを操作するためのIAMロールを作成します。
 
 :::
 
 ![](/images/chapter_5/02-diagram.png)
 
-## Terraform Cloud用IAMロールの作成
+## HCP Terraform用IAMロールの作成
 
-Terraform Cloudは、OpenID Connectを使用してAWSやAzure、Google Cloudに対して動的なクレデンシャルを生成できます。
+HCP Terraformは、OpenID Connectを使用してAWSやAzure、Google Cloudに対して動的なクレデンシャルを生成できます。
 
 永続的なIAMユーザーを作成せずに、IAMロールを使用して認証ができます。
 
-Terraform CloudでAWSリソースを操作できるように、AWSアカウントにTerraform Cloud用のIAMロールを用意します。
+HCP TerraformでAWSリソースを操作できるように、AWSアカウントにHCP Terraform用のIAMロールを用意します。
 
-Terraform Cloud用のIAMロールはTerraformで作成します。
+HCP Terraform用のIAMロールはTerraformで作成します。
 
 ### IAMユーザーの作成
 
-IAMロール作成後は不要になりますが、Terraform Cloud用のIAMロールを作成するTerraformを流すために一時的にIAMユーザーとIAMアクセスキーを作成します。
+IAMロール作成後は不要になりますが、HCP Terraform用のIAMロールを作成するTerraformを流すために一時的にIAMユーザーとIAMアクセスキーを作成します。
 
 CloudShellを開いて、以下のコマンドを実行します。
 
@@ -35,7 +35,7 @@ aws iam create-access-key --user-name tmp-tfc-user
 
 `aws iam create-access-key`コマンドで出力される`AccessKeyId`と`SecretAccessKey`は、この後使うためメモしておいてください。
 
-### Terraform Cloud用のIAMロールを作成
+### HCP Terraform用のIAMロールを作成
 
 #### tfファイルの用意
 
@@ -134,9 +134,9 @@ resource "aws_iam_role_policy_attachment" "tfc_policy_attachment" {
 }
 ```
 
-Terraform Cloud用のIAMロールとアタッチするIAMポリシーを定義しています。
+HCP Terraform用のIAMロールとアタッチするIAMポリシーを定義しています。
 
-今回はTerraform CloudのOrganizationのすべてのWorkspaceに対して、`assume_role_policy`でIAM Roleの引き受けを許可しています。
+今回はHCP TerraformのOrganizationのすべてのWorkspaceに対して、`assume_role_policy`でIAM Roleの引き受けを許可しています。
 
 特定のWorkspaceやProjectまたRun・Planといったフェーズごとに引き受けられる条件を指定することも可能です。
 
@@ -145,7 +145,7 @@ Terraform Cloud用のIAMロールとアタッチするIAMポリシーを定義�
 ```hcl: variables.tf
 variable "tfc_organization_name" {
   type        = string
-  description = "The name of your Terraform Cloud organization"
+  description = "The name of your HCP Terraform organization"
 }
 ```
 
@@ -153,7 +153,7 @@ variable "tfc_organization_name" {
 tfc_organization_name = "<YOUR_ORG>"
 ```
 
-Terraform CloudのOrganization名は、Variablesとして定義します。
+HCP TerraformのOrganization名は、Variablesとして定義します。
 
 `terraform.tfvars`の`<YOUR_ORG>`の部分を自分のOrganization名に変更してください。
 
@@ -170,7 +170,7 @@ output "role_arn" {
 }
 ```
 
-作成したIAM Role ARNは、Terraform Cloudにセットする必要があるためOutputsとして出力します。
+作成したIAM Role ARNは、HCP Terraformにセットする必要があるためOutputsとして出力します。
 
 #### Terraformの実行
 
@@ -220,7 +220,7 @@ resource "aws_sqs_queue" "my_queue" {
 }
 ```
 
-ローカルからCLIでTerraform Cloudを利用する場合(CLI Driven Workflow)、`cloud`ブロックの設定が必要です。
+ローカルからCLIでHCP Terraformを利用する場合(CLI Driven Workflow)、`cloud`ブロックの設定が必要です。
 
 Organization名は自身の環境にあった名前に書き換えてください。
 
@@ -233,14 +233,14 @@ Workspace名(`tfc-iam-role-test`の部分)、Workspace名はOrganization内で�
 
 そのため、本書ではVCS Driven Workflowで使用するTerraformコード上では`cloud`ブロックの設定は行いません。(上記のSQS作成のコードはCLI Driven Workflow)
 
-[Terraform Cloud Settings \- Terraform CLI \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cli/cloud/settings)
+[HCP Terraform Settings \- Terraform CLI \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cli/cloud/settings)
 :::
 
-#### ローカルからTerraform Cloudへの接続
+#### ローカルからHCP Terraformへの接続
 
-以下のコマンドを実行してローカルからTerraform Cloudに接続するための認証情報を作成します。
+以下のコマンドを実行してローカルからHCP Terraformに接続するための認証情報を作成します。
 
-`terraform login`コマンドを実行することで、Terraform Cloudのトークンを作成しローカルに保存することができます。
+`terraform login`コマンドを実行することで、HCP Terraformのトークンを作成しローカルに保存することができます。
 
 ```bash
 $ terraform login
@@ -276,14 +276,14 @@ Token for app.terraform.io:
   Enter a value: <作成したトークンを入力>
 ```
 
-コマンドを実行することで、ブラウザが立ち上がりTerraform Cloudのトークン作成画面に遷移します。
+コマンドを実行することで、ブラウザが立ち上がりHCP Terraformのトークン作成画面に遷移します。
 (自動でブラウザが立ち上がらない場合は、上記コマンドの出力結果に表示されるリンク(`https://app.terraform.io/app/settings/tokens?source=terraform-login`)にブラウザでアクセスしてください。)
 
 ![](/images/chapter_5/02-aws-iam-role-terraform-token-1.png)
 ![](/images/chapter_5/02-aws-iam-role-terraform-token-2.png)
 
 
-Terraform Cloudのコンソール上で作成したトークンを、先程のコマンドを実行したコンソールに貼り付けたら完了です。
+HCP Terraformのコンソール上で作成したトークンを、先程のコマンドを実行したコンソールに貼り付けたら完了です。
 
 #### Workspaceとリソースの作成
 
@@ -294,11 +294,11 @@ cd trust/test
 terraform init
 ```
 
-Terraform Cloudの画面を見てみると、`tfc-iam-role-test`というWorkspaceが作成されていることを確認できます。
+HCP Terraformの画面を見てみると、`tfc-iam-role-test`というWorkspaceが作成されていることを確認できます。
 
 ![](/images/chapter_5/02-aws-iam-role-3.png)
 
-Workspaceが作成したTerraform Cloud用のIAMロールを使用するように設定する必要があります。
+Workspaceが作成したHCP Terraform用のIAMロールを使用するように設定する必要があります。
 
 Workspace `tfc-iam-role-test` -> Variablesの順に選択します。
 
@@ -322,7 +322,7 @@ Workspace `tfc-iam-role-test` -> Variablesの順に選択します。
 :::
 
 Variablesの設定ができたら、Terraformを実行します。
-Terraform Cloud上でterraformコマンドが実行されるため、ローカルにAWS認証情報は不要です。
+HCP Terraform上でterraformコマンドが実行されるため、ローカルにAWS認証情報は不要です。
 
 ```bash
 terraform plan
@@ -343,13 +343,13 @@ terraform destroy
 
 Workspaceも削除します。
 
-`tfc-iam-role-test` -> `Settings` -> `Destruction and Deletion` -> `Force Delete from Terraform Cloud`の順番に選択して、Workspaceの削除を実行します。
+`tfc-iam-role-test` -> `Settings` -> `Destruction and Deletion` -> `Force Delete from HCP Terraform`の順番に選択して、Workspaceの削除を実行します。
 
 ![](/images/chapter_5/02-aws-iam-role-6.png)
 
 ### IAMユーザーの削除
 
-これまでの操作で、IAMロールを使ってTerraform CloudからAWSリソースを操作をできるようになりました。
+これまでの操作で、IAMロールを使ってHCP TerraformからAWSリソースを操作をできるようになりました。
 
 最初に作成したIAMユーザーは不要になったため、以下のコマンドで削除します。
 

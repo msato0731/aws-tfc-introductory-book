@@ -1,14 +1,14 @@
 ---
-title: "Chapter6: Terraform Cloud その他の機能"
+title: "Chapter6: HCP Terraform その他の機能"
 ---
 
 :::message
-ハンズオンでTerraform Cloudの基本的な操作を体験してもらいました。
+ハンズオンでHCP Terraformの基本的な操作を体験してもらいました。
 本セクションでは、ハンズオンで紹介しきれなかった機能の一部を紹介します。
 
 :::
 
-## Terraform Cloudの機能
+## HCP Terraformの機能
 
 | カテゴリ                        | 機能名                       | 概要                                                                            |
 |-----------------------------|---------------------------|-------------------------------------------------------------------------------|
@@ -20,6 +20,6 @@ title: "Chapter6: Terraform Cloud その他の機能"
 | Unified workflow management | Private Registry          | 組織内だけで使用可能なTerraformモジュール/プロパイダーを提供する機能                                       |
 |                             | No Code Provisioning      | 事前に用意したモジュールを使って、GUIでリソース作成できるを機能                                             |
 | Policy & Security           | Policy as code            | ポリシー(OPA・Sentinel)を定義し、実行前にチェックを実施<br/>                                       |
-|                             | Run Task                  | サードパーティツールとTerraform Cloudを統合する機能<br/>Plan時にサードパーティツールによるセキュリティチェックを組み込むなどが可能 |
+|                             | Run Task                  | サードパーティツールとHCP Terraformを統合する機能<br/>Plan時にサードパーティツールによるセキュリティチェックを組み込むなどが可能 |
 
 [HashiCorp Terraform: Enterprise Pricing, Packages & Features](https://www.hashicorp.com/products/terraform/pricing)

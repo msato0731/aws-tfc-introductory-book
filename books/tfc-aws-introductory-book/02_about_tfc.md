@@ -1,14 +1,14 @@
 ---
-title: "Chapter2: Terraform Cloudとは"
+title: "Chapter2: HCP Terraformとは"
 ---
 
 :::message
-本チャプターでは、Terraform Cloudとはなにか？ どういった機能があるのか？などのTerraform Cloudの概要を解説します。
+本チャプターでは、HCP Terraformとはなにか？ どういった機能があるのか？などのHCP Terraformの概要を解説します。
 :::
 
-## Terraform Cloudとは
+## HCP Terraformとは
 
-Terraform CloudはTerraformを組織で利用するために必要なデプロイパイプラインやガバナンス機能を提供するSaaS製品です。
+HCP TerraformはTerraformを組織で利用するために必要なデプロイパイプラインやガバナンス機能を提供するSaaS製品です。
 
 [HashiCorp Terraform \- Provision & Manage any Infrastructure](https://www.hashicorp.com/products/terraform)
 
@@ -18,9 +18,9 @@ Terraform CloudはTerraformを組織で利用するために必要なデプロ�
 
 同様の機能を持ったTerraform Enterpriseという製品もありますが、こちらは自社のサーバーにTerraform Enterpriseをインストールすることで使用できます。
 
-本書では、Terraform Cloudを前提としています。
+本書では、HCP Terraformを前提としています。
 
-## Terraform Cloudのメリットと利用シーン
+## HCP Terraformのメリットと利用シーン
 
 Terraform OSS版を使用していて、以下のような課題を感じたことはありませんか。
 
@@ -29,7 +29,7 @@ Terraform OSS版を使用していて、以下のような課題を感じたこ�
 - 組織内でTerraformコードを再利用して、運用効率を上げたい
 - Stateファイルを管理するインフラの構築・運用が負担になっている
 
-Terraform Cloudには以下の機能があり、上記の課題の解決に役立つかも知れません。
+HCP Terraformには以下の機能があり、上記の課題の解決に役立つかも知れません。
 
 - CI/CDパイプライン
 - ポリシー適用
@@ -40,7 +40,7 @@ Terraform Cloudには以下の機能があり、上記の課題の解決に役�
 
 ### CI/CDパイプライン
 
-Terraform Cloudでは、VCS(GitHub、GitLab等)と連携したデプロイパイプラインを作成できます。
+HCP Terraformでは、VCS(GitHub、GitLab等)と連携したデプロイパイプラインを作成できます。
 
 トリガーとなるブランチや実行フォルダの設定・手動承認の有無など柔軟に設定することができます。
 
@@ -48,11 +48,11 @@ TerraformのCI/CDパイプラインを、Github ActionsであったりCodeシリ
 
 上記の場合は、ツール上でTerraformをCI/CDするためにパイプラインの作り込みが必要になります。
 
-Terraform Cloudを使用することで、Terraformに最適化されたCI/CDパイプラインを少ない工数で作成することができます。
+HCP Terraformを使用することで、Terraformに最適化されたCI/CDパイプラインを少ない工数で作成することができます。
 
 ### ポリシー適用
 
-Terraform Cloudでは、OPAやSentinelを使ってポリシーを定義することができます。
+HCP Terraformでは、OPAやSentinelを使ってポリシーを定義することができます。
 
 例えば、以下のようなポリシーを作成することができます。
 
@@ -68,17 +68,17 @@ Terraform Cloudでは、OPAやSentinelを使ってポリシーを定義するこ
 
 組織内で使うModuleやProviderをに、インターネット上に公開するのが好ましくないパターンはあると思います。
 
-Terraform CloudではPrivate Registryという機能を提供しており、組織内にModuleやProviderを公開することができます。
+HCP TerraformではPrivate Registryという機能を提供しており、組織内にModuleやProviderを公開することができます。
 
 ### Stateファイル管理
 
 Terraformの運用規模が大きくなると、State管理用のリソース(AWSだったら、S3やDynamoDB)の管理が負担になってくることがあります。
 
-Terraform CloudはStateファイルを管理することができます。
+HCP TerraformはStateファイルを管理することができます。
 
 Stateファイル管理用のリソースを自分で用意する必要がなくなり、運用の負荷を下げることができます。
 
 他にも以下のメリットがあります。
 
 - 変更履歴の確認やロールバックをGUI上で実行できる
-- Terraform Cloud上でStateファイルのアクセス制御を行うことができる
+- HCP Terraform上でStateファイルのアクセス制御を行うことができる
