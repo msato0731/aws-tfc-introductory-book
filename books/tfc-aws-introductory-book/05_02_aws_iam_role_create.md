@@ -19,6 +19,8 @@ HCP TerraformでAWSリソースを操作できるように、AWSアカウント�
 
 HCP Terraform用のIAMロールはTerraformで作成します。
 
+[Use dynamic credentials with the AWS provider in HCP Terraform \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/dynamic-provider-credentials/aws-configuration)
+
 ### IAMユーザーの作成
 
 IAMロール作成後は不要になりますが、HCP Terraform用のIAMロールを作成するTerraformを流すために一時的にIAMユーザーとIAMアクセスキーを作成します。
@@ -28,9 +30,9 @@ CloudShellを開いて、以下のコマンドを実行します。
 ![](/images/chapter_5/02-aws-iam-role-1.png)
 
 ```bash
-aws iam create-user --user-name tmp-tfc-user
-aws iam attach-user-policy --user-name tmp-tfc-user --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
-aws iam create-access-key --user-name tmp-tfc-user
+aws iam create-user --user-name tmp-hcp-tf-user
+aws iam attach-user-policy --user-name tmp-hcp-tf-user --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+aws iam create-access-key --user-name tmp-hcp-tf-user
 ```
 
 `aws iam create-access-key`コマンドで出力される`AccessKeyId`と`SecretAccessKey`は、この後使うためメモしておいてください。
@@ -50,14 +52,13 @@ cd trust/iam_role
 
 以下のファイルを用意します。
 
-<!-- TODO: 必要に応じて権限の見直し -->
-
 ```hcl: main.tf
 terraform {
+  required_version = "~> 1.10.2"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0.1"
+      version = "~> 5.82.2"
     }
   }
 }
@@ -66,21 +67,21 @@ provider "aws" {
 }
 
 locals {
-  tfc_hostname = "app.terraform.io"
+  hcp_tf_hostname = "app.terraform.io"
 }
 
-data "tls_certificate" "tfc_certificate" {
-  url = "https://${local.tfc_hostname}"
+data "tls_certificate" "hcp_tf_certificate" {
+  url = "https://${local.hcp_tf_hostname}"
 }
 
-resource "aws_iam_openid_connect_provider" "tfc_provider" {
-  url             = data.tls_certificate.tfc_certificate.url
+resource "aws_iam_openid_connect_provider" "hcp_tf_provider" {
+  url             = data.tls_certificate.hcp_tf_certificate.url
   client_id_list  = ["aws.workload.identity"]
-  thumbprint_list = [data.tls_certificate.tfc_certificate.certificates[0].sha1_fingerprint]
+  thumbprint_list = [data.tls_certificate.hcp_tf_certificate.certificates[0].sha1_fingerprint]
 }
 
-resource "aws_iam_role" "tfc_role" {
-  name = "tfc-role"
+resource "aws_iam_role" "hcp_tf_role" {
+  name = "hcp-tf-role"
 
   assume_role_policy = <<EOF
 {
@@ -89,15 +90,15 @@ resource "aws_iam_role" "tfc_role" {
    {
      "Effect": "Allow",
      "Principal": {
-       "Federated": "${aws_iam_openid_connect_provider.tfc_provider.arn}"
+       "Federated": "${aws_iam_openid_connect_provider.hcp_tf_provider.arn}"
      },
      "Action": "sts:AssumeRoleWithWebIdentity",
      "Condition": {
        "StringEquals": {
-         "${local.tfc_hostname}:aud": "${one(aws_iam_openid_connect_provider.tfc_provider.client_id_list)}"
+         "${local.hcp_tf_hostname}:aud": "${one(aws_iam_openid_connect_provider.hcp_tf_provider.client_id_list)}"
        },
        "StringLike": {
-         "${local.tfc_hostname}:sub": "organization:${var.tfc_organization_name}:project:*:workspace:*:run_phase:*"
+         "${local.hcp_tf_hostname}:sub": "organization:${var.hcp_tf_organization_name}:project:*:workspace:*:run_phase:*"
        }
      }
    }
@@ -106,9 +107,9 @@ resource "aws_iam_role" "tfc_role" {
 EOF
 }
 
-resource "aws_iam_policy" "tfc_policy" {
-  name        = "tfc-policy"
-  description = "TFC run policy"
+resource "aws_iam_policy" "hcp_tf_policy" {
+  name        = "hcp-tf-policy"
+  description = "HCP Terraform run policy"
 
   policy = <<EOF
 {
@@ -128,9 +129,9 @@ resource "aws_iam_policy" "tfc_policy" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "tfc_policy_attachment" {
-  role       = aws_iam_role.tfc_role.name
-  policy_arn = aws_iam_policy.tfc_policy.arn
+resource "aws_iam_role_policy_attachment" "hcp_tf_policy_attachment" {
+  role       = aws_iam_role.hcp_tf_role.name
+  policy_arn = aws_iam_policy.hcp_tf_policy.arn
 }
 ```
 
@@ -138,26 +139,26 @@ HCP Terraform用のIAMロールとアタッチするIAMポリシーを定義し�
 
 今回はHCP TerraformのOrganizationのすべてのWorkspaceに対して、`assume_role_policy`でIAM Roleの引き受けを許可しています。
 
-特定のWorkspaceやProjectまたRun・Planといったフェーズごとに引き受けられる条件を指定することも可能です。
+特定のWorkspaceやProjectやRun・Planといったフェーズごとに引き受けられる条件を指定することも可能です。
 
 権限はEC2とSQSを許可しています。EC2の他にSQSを許可している理由は、動作確認でSQSのリソースを作成するためです。
 
 ```hcl: variables.tf
-variable "tfc_organization_name" {
+variable "hcp_tf_organization_name" {
   type        = string
   description = "The name of your HCP Terraform organization"
 }
 ```
 
 ```hcl: terraform.tfvars
-tfc_organization_name = "<YOUR_ORG>"
+hcp_tf_organization_name = "<YOUR_ORG>"
 ```
 
 HCP TerraformのOrganization名は、Variablesとして定義します。
 
 `terraform.tfvars`の`<YOUR_ORG>`の部分を自分のOrganization名に変更してください。
 
-Organization名の確認方法はいくつかありますが、Terraform Cluodの画面上から確認するのが簡単です。
+Organization名の確認方法はいくつかありますが、HCP Terraformの画面上から確認するのが簡単です。
 
 以下のスクショの`tfc-aws-book-test`の部分がOrganization名です。
 
@@ -166,7 +167,7 @@ Organization名の確認方法はいくつかありますが、Terraform Cluod�
 ```hcl: outputs.tf
 output "role_arn" {
   description = "ARN for trust relationship role"
-  value       = aws_iam_role.tfc_role.arn
+  value       = aws_iam_role.hcp_tf_role.arn
 }
 ```
 
@@ -194,47 +195,6 @@ apply時の出力されるOutputsの`role_arn`をこの後使うのため、メ�
 ### 動作確認
 
 IAMロールを作成できたら、動作確認をします。
-
-#### 動作確認用のtfファイル用意
-
-動作確認では、SQSを作成します。
-
-以下のファイルを用意します。
-
-```hcl: trust/test/main.tf
-terraform {
-  cloud {
-    organization = "<Organization名>" # 書き換える
-    workspaces {
-      name = "tfc-iam-role-test" # Organization内で一意な必要あり、必要に応じて置き換える
-    }
-  }
-}
-
-provider "aws" {
-  region = "ap-northeast-1"
-}
-
-resource "aws_sqs_queue" "my_queue" {
-  name = "my-queue"
-}
-```
-
-ローカルからCLIでHCP Terraformを利用する場合(CLI Driven Workflow)、`cloud`ブロックの設定が必要です。
-
-Organization名は自身の環境にあった名前に書き換えてください。
-
-Workspace名(`tfc-iam-role-test`の部分)、Workspace名はOrganization内で一意である必要があります。
-
-すでに同じ名前のWorkspaceがある場合は、置き換えてください。
-
-:::message
-本書で主に使用するVCS Driven Workflowでは、`cloud`ブロックの設定は無視されWorkspace設定に従って動作します。
-
-そのため、本書ではVCS Driven Workflowで使用するTerraformコード上では`cloud`ブロックの設定は行いません。(上記のSQS作成のコードはCLI Driven Workflow)
-
-[HCP Terraform Settings \- Terraform CLI \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cli/cloud/settings)
-:::
 
 #### ローカルからHCP Terraformへの接続
 
@@ -282,8 +242,56 @@ Token for app.terraform.io:
 ![](/images/chapter_5/02-aws-iam-role-terraform-token-1.png)
 ![](/images/chapter_5/02-aws-iam-role-terraform-token-2.png)
 
-
 HCP Terraformのコンソール上で作成したトークンを、先程のコマンドを実行したコンソールに貼り付けたら完了です。
+
+#### 動作確認用のtfファイル用意
+
+動作確認では、SQSを作成します。
+
+以下のファイルを用意します。
+
+```hcl: trust/test/main.tf
+terraform {
+  required_version = "~> 1.10.2"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.82.2"
+    }
+  }
+  cloud {
+    organization = "<Organization名>" # 書き換える
+    workspaces {
+      name = "hcp-tf-iam-role-test"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-northeast-1"
+}
+
+resource "aws_sqs_queue" "my_queue" {
+  name = "my-queue"
+}
+
+```
+
+ローカルからCLIでHCP Terraformを利用する場合(CLI Driven Workflow)、`cloud`ブロックの設定が必要です。
+
+Organization名は自身の環境にあった名前に書き換えてください。
+
+Workspace名(`hcp-tf-iam-role-test`の部分)、Workspace名はOrganization内で一意である必要があります。
+
+すでに同じ名前のWorkspaceがある場合は、重複しない名前に置き換えてください。
+
+:::message
+本書で主に使用するVCS Driven Workflowでは、`cloud`ブロックの設定は無視されWorkspace設定に従って動作します。
+
+そのため、本書ではVCS Driven Workflowで使用するTerraformコード上では`cloud`ブロックの設定は行いません。(上記のSQS作成のコードはCLI Driven Workflow)
+
+[HCP Terraform Settings \- Terraform CLI \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/cli/cloud/settings)
+:::
 
 #### Workspaceとリソースの作成
 
@@ -294,13 +302,13 @@ cd trust/test
 terraform init
 ```
 
-HCP Terraformの画面を見てみると、`tfc-iam-role-test`というWorkspaceが作成されていることを確認できます。
+HCP Terraformの画面を見てみると、`hcp-tf-iam-role-test`というWorkspaceが作成されていることを確認できます。
 
 ![](/images/chapter_5/02-aws-iam-role-3.png)
 
 Workspaceが作成したHCP Terraform用のIAMロールを使用するように設定する必要があります。
 
-Workspace `tfc-iam-role-test` -> Variablesの順に選択します。
+Workspace `hcp-tf-iam-role-test` -> Variablesの順に選択します。
 
 以下のWorkspace variablesを設定します。
 
@@ -343,7 +351,7 @@ terraform destroy
 
 Workspaceも削除します。
 
-`tfc-iam-role-test` -> `Settings` -> `Destruction and Deletion` -> `Force Delete from HCP Terraform`の順番に選択して、Workspaceの削除を実行します。
+`hcp-tf-iam-role-test` -> `Settings` -> `Destruction and Deletion` -> `Force Delete from HCP Terraform`の順番に選択して、Workspaceの削除を実行します。
 
 ![](/images/chapter_5/02-aws-iam-role-6.png)
 
@@ -351,10 +359,11 @@ Workspaceも削除します。
 
 これまでの操作で、IAMロールを使ってHCP TerraformからAWSリソースを操作をできるようになりました。
 
-最初に作成したIAMユーザーは不要になったため、以下のコマンドで削除します。
+最初に作成したIAMユーザーは不要になったため、CloudShell上で以下のコマンドを実行し削除します。
 
 ```bash
-aws iam delete-access-key --user-name tmp-tfc-user --access-key-id <AccessKeyId>
-aws iam detach-user-policy --user-name tmp-tfc-user --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
-aws iam delete-user --user-name tmp-tfc-user
+ACCESS_KEY_ID=$(aws iam list-access-keys --user-name tmp-hcp-tf-user --query AccessKeyMetadata[].AccessKeyId --output text)
+aws iam delete-access-key --user-name tmp-hcp-tf-user --access-key-id $(ACCESS_KEY_ID)
+aws iam detach-user-policy --user-name tmp-hcp-tf-user --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+aws iam delete-user --user-name tmp-hcp-tf-user
 ```
