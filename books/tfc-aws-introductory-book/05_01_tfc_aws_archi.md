@@ -10,7 +10,7 @@ title: "　ハンズオンで構築する構成"
 
 ## 全体構成
 
-HCP TerraformのWorkspaceはGitHubと連携させます。
+HCP TerraformのWorkspaceとGitHubを連携させます。
 
 AWS環境を本番とSTGで分けている想定で、Workspaceをそれぞの環境ごとに作成します。
 

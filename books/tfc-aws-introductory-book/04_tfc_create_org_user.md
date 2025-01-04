@@ -20,7 +20,7 @@ Freeプランには一部の機能に制限はありますが、利用期間の�
 
 [https://app.terraform.io/public/signup/account](https://app.terraform.io/public/signup/account)
 
-メールアドレス等や必要な情報を入力します。
+メールアドレスや必要な情報を入力します。
 
 ![](/images/chapter_4/tfc-create-account-1.png)
 

@@ -19,7 +19,7 @@ Project nameは以下とします。
 
 | 項目  |  設定値  |
 | ---- | ---- |
-|  Project name  |  aws-tfc-introductory-book  |
+|  Project name  | aws-hcp-tf-introductory-book |
 
 ![](/images/chapter_5/04-01-project-02.png)
 
@@ -34,7 +34,7 @@ IAM Role ARNは前の節「HCP Terraform用IAMロール作成」で使用したA
 AWS CLIで確認する場合は、以下のコマンドで確認できます。
 
 ```bash
-aws iam get-role --role-name tfc-role --query Role.Arn --output text
+aws iam get-role --role-name hcp-tf-role --query Role.Arn --output text
 ```
 
 HCP Terraformのポータルサイト上で、`Settings` -> `Variables sets`の順に選択します。
@@ -43,8 +43,8 @@ HCP Terraformのポータルサイト上で、`Settings` -> `Variables sets`の�
 
 | 項目  |  設定値  |
 | ---- | ---- |
-|  Variables sets name  |  aws-tfc-introductory-book  |
-|  Variables sets scope  |  aws-tfc-introductory-book  |
+|  Variables sets name  |  aws-hcp-tf-introductory-book  |
+|  Variables sets scope(Project)  |  aws-hcp-tf-introductory-book  |
 
 | Variable category  |  Key  |  Value  |  Sensitive  |
 | ---- | ---- | ---- | ---- |
@@ -52,6 +52,7 @@ HCP Terraformのポータルサイト上で、`Settings` -> `Variables sets`の�
 |  Environment variable  |  TFC_AWS_RUN_ROLE_ARN  |  <`role_arn`>  |  No  |
 
 ![](/images/chapter_5/04-02-variables-01.png)
+![](/images/chapter_5/04-02-variables-02.png)
 
 ## Workspaceの作成(VCS Driven)
 
@@ -69,14 +70,16 @@ GitHubを選択して、サンプルコードをPushしたリポジトリを選�
 
 Workspace名は以下を設定します。STGとPRODでWorkspaceを2つ作成します。
 
+同時に複数Workspacesを作成することはできないため、STGとPRODでそれぞれ行います。
+
 | 項目  |　設定値 |
 | ---- | ---- |
-| PROD環境|  prod-aws-tfc-introductory-book  |
-| STG環境 |  stg-aws-tfc-introductory-book  |
+| PROD環境|  prod-aws-hcp-tf-introductory-book  |
+| STG環境 |  stg-aws-hcp-tf-introductory-book  |
 
 ![](/images/chapter_5/04-03-workspace-04.png)
 
-Project配下に以下2つのWorkspaceが作成できたらOKです。
+Project配下に以下2つのWorkspaceを作成できたらOKです。
 
 ![](/images/chapter_5/04-03-workspace-05.png)
 
@@ -89,7 +92,7 @@ Runを実行する前に、Workspaceにて以下の作業を行う必要があ�
 
 ### 1. Terraform 実行ディレクトリの設定
 
-どのディレクトリでTerraformを実行するか指定する必要があります。
+どのディレクトリでTerraformを実行するか指定します。
 
 今回の場合は、tfファイルが`infra/chapter5/<prod or stg>`にあります。
 
@@ -98,36 +101,58 @@ Runを実行する前に、Workspaceにて以下の作業を行う必要があ�
 `Workspace名`　-> `Settings` -> `General`の順に選択して、`Terraform Working Directory
 `に設定します。
 
+`Save settings`を選択して、設定を反映します。
+
 | Workspace名  |  実行ディレクトリ  |
 | ---- | ---- |
-|  prod-aws-tfc-introductory-book  |  infra/chapter5/prod  |
-|  stg-aws-tfc-introductory-book  |  infra/chapter5/stg  |
+|  prod-aws-hcp-tf-introductory-book  |  infra/chapter5/prod  |
+|  stg-aws-hcp-tf-introductory-book  |  infra/chapter5/stg  |
 
 ![](/images/chapter_5/04-04-workspace-setting-1.png)
 
 ### 2. STG WorkspaceのAuto applyの有効化
 
-STG Workspaceは手動承認無しで、mergeされたらDeployしたいためAuto Applyを有効にします。
+STG Workspaceは手動承認無しで、mergeされたらDeployします。
 
-`Workspace名` -> `Settings` -> `General`の順に選択して、`Apply Method`を`Auto apply`に変更します。
+実現するために、Auto Applyを有効にします。
+
+`Workspace名` -> `Settings` -> `General`の順に選択します。
+
+`Auto Apply`の`Auto-apply API,CLI, & VCS runs`にチェックを入れます。
+
+`Save settings`を選択して、設定を反映します。
 
 ![](/images/chapter_5/04-04-workspace-setting-2.png)
+
+:::message
+今回はチェックを入れませんでしたが、Auto-applyの設定には`Auto-apply run triggers`のチェックボックスもあります。
+
+HCP TerraformにはRun triggersという機能があります。
+
+この機能はWorkspacesを接続して、接続元WorkspaceでApplyがあった際に、Runを接続先Workspaceのキューに入れる機能です。
+
+デフォルトでは、Run triggersで作成されたRunは手動承認が必要です。
+
+`Auto-apply run triggers`を有効にすることで、Run triggersで作成されたRunが手動承認無しでApplyされるようになります。
+
+:::
+
 
 ## 動作確認
 
 ### HCP Terraformのコンソールからデプロイ
 
-リソースデプロイの準備ができました。実際にデプロイしてみましょう。
+デプロイの準備ができました。
 
-まずは、HCP Terraformのコンソールからデプロイを実行してみます。
+`prod-aws-hcp-tf-introductory-book` WorkspaceでHCP Terraformのコンソールからデプロイを実行してみます。
 
-`Workspace`の`Runs` -> `Actions` -> `Start new run` で実行できます。
+`Workspace`の`Runs` -> `New Run`の順に選択します。
 
 ![](/images/chapter_5/04-05-manual-run-01.png)
 
 任意でRunの実行理由を設定できます。
 
-後で確認するときに、便利なため本番運用時はできるだけ設定しましょう。
+後で確認するときに便利なため、本番運用時はできるだけ設定しましょう。
 
 今回は省略して、`Start run`を実行します。
 
@@ -137,7 +162,7 @@ STG Workspaceは手動承認無しで、mergeされたらDeployしたいためAu
 
 ![](/images/chapter_5/04-05-manual-run-03.png)
 
-Applyが成功したら、AWS上でリソースが作成されていることを確認できます。
+Applyが成功したら、AWS上でリソースが作成されます。
 
 ![](/images/chapter_5/04-05-manual-run-04.png)
 
@@ -153,9 +178,9 @@ mainブランチにPull Requestを出して、自動デプロイを試してま�
 
 [引用元](https://developer.hashicorp.com/terraform/cloud-docs/run/ui)
 
-そのため、前の手順を参考にPROD WorkspaceとSTG Workspaceでそれぞれ一度コンソールからデプロイを実行してください。
+そのため、前の手順を参考にSTG Workspaceでも一度コンソールからデプロイを実行してください。
 
-下記の通りに、EC2インスタンスにEnvタグを付与するPull Requestを作成します。
+その後、EC2インスタンスにEnvタグを付与するPull Requestを作成します。
 
 ![](/images/chapter_5/04-06-auto-run-01.png)
 
@@ -174,15 +199,18 @@ PROD Workspaceは`Manual apply`設定で手動承認が必要なため、この�
 EC2のタグの状態を確認してみても、STGだけ追加されていることが分かります。
 
 ```diff bash
-$ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
-"Name=value,Values=prod-tfc-aws-book,stg-tfc-aws-book"
+$ INSTANCE_IDS=$(aws ec2 describe-instances \
+    --filters "Name=tag:Name,Values=prod-hcp-tf-aws-book,stg-hcp-tf-aws-book" \
+    --query 'Reservations[].Instances[].InstanceId' \
+    --output text | tr '\t' ',')
+$ aws ec2 describe-tags --filters "Name=resource-id, Values=$INSTANCE_IDS"
 {
     "Tags": [
         {
             "Key": "Name",
             "ResourceId": "i-XXXXXXXXXX",
             "ResourceType": "instance",
-            "Value": "prod-tfc-aws-book"
+            "Value": "prod-hcp-tf-aws-book"
         },
 +        {
 +            "Key": "Env",
@@ -194,7 +222,7 @@ $ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
             "Key": "Name",
             "ResourceId": "i-YYYYYYYYYYY",
             "ResourceType": "instance",
-            "Value": "stg-tfc-aws-book"
+            "Value": "stg-hcp-tf-aws-book"
         }
     ]
 }
@@ -205,8 +233,7 @@ PROD Workspaceで手動承認を行うことでデプロイが実行されます
 ![](/images/chapter_5/04-06-auto-run-04.png)
 
 ```diff bash
-$ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
-"Name=value,Values=prod-tfc-aws-book,stg-tfc-aws-book"
+$ aws ec2 describe-tags --filters "Name=resource-id, Values=$INSTANCE_IDS"
 {
     "Tags": [
 +        {
@@ -219,7 +246,7 @@ $ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
             "Key": "Name",
             "ResourceId": "i-XXXXXXXXXX",
             "ResourceType": "instance",
-            "Value": "prod-tfc-aws-book"
+            "Value": "prod-hcp-tf-aws-book"
         },
         {
             "Key": "Env",
@@ -231,7 +258,7 @@ $ aws ec2 describe-tags --filters "Name=resource-type,Values=instance" \
             "Key": "Name",
             "ResourceId": "i-YYYYYYYYYYY",
             "ResourceType": "instance",
-            "Value": "stg-tfc-aws-book"
+            "Value": "stg-hcp-tf-aws-book"
         }
     ]
 }
@@ -251,11 +278,11 @@ HCP Terraform上でTerraformで作成したリソースの削除ができます�
 
 確認画面がでるため、Workspace名を入力して`Queue destroy plan`を選択することでDestroy用のRunが行われます。
 
-Workspaceから`Runs`を選択すると、Destroy用のRunが実行されていることを確認できます。
+Run画面に自動で遷移します。
+
+画面上から、Destroyが実行されたことを確認できます。
 
 ![](/images/chapter_5/04-07-destroy-02.png)
-
-Runの実行が完了すると、実際にリソースが削除できていることを確認できます。
 
 :::message
 PROD Workspaceは手動承認が必要な設定にしています。

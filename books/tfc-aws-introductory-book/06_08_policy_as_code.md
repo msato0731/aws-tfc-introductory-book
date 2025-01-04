@@ -23,7 +23,7 @@ OPAまたはSentinelで定義したPolicyをチェックする機能です。
 
 - Policyを設定してセキュリティ確保やレビュー負荷を低減させたい
 
-##　参考
+## 参考
 
 - [(チュートリアル)Enforce OPA policies using HCP Terraform and Styra \| Terraform \| HashiCorp Developer](https://developer.hashicorp.com/terraform/tutorials/cloud/validation-enforcement)
 - [HCP TerraformのOPA Policy適用のチュートリアルをやってみた \| DevelopersIO](https://dev.classmethod.jp/articles/terraform-cloud-opa-policy-tutorial/)
