@@ -94,7 +94,7 @@ Runを実行する前に、Workspaceにて以下の作業を行う必要があ�
 
 どのディレクトリでTerraformを実行するか指定します。
 
-今回の場合は、tfファイルが`infra/chapter5/<prod or stg>`にあります。
+今回の場合は、tfファイルが`infra/chapter5/aws/<prod or stg>`にあります。
 
 このディレクトリを実行ディレクトリとして設定します。
 
@@ -105,8 +105,8 @@ Runを実行する前に、Workspaceにて以下の作業を行う必要があ�
 
 | Workspace名  |  実行ディレクトリ  |
 | ---- | ---- |
-|  prod-aws-hcp-tf-introductory-book  |  infra/chapter5/prod  |
-|  stg-aws-hcp-tf-introductory-book  |  infra/chapter5/stg  |
+|  prod-aws-hcp-tf-introductory-book  |  infra/chapter5/aws/prod  |
+|  stg-aws-hcp-tf-introductory-book  |  infra/chapter5/aws/stg  |
 
 ![](/images/chapter_5/04-04-workspace-setting-1.png)
 
@@ -264,7 +264,7 @@ $ aws ec2 describe-tags --filters "Name=resource-id, Values=$INSTANCE_IDS"
 }
 ```
 
-### 後片付け
+## 後片付け
 
 ### リソース削除
 

@@ -14,6 +14,7 @@ chapters:
   - 05_02_aws_iam_role_create
   - 05_03_prepare_tf_file
   - 05_04_tfc_github_deploy
+  - 05_05_tfe_tfc_github_deploy
   - 06_00_tfc_function
   - 06_01_workspace_explorer
   - 06_02_cost_estimation
