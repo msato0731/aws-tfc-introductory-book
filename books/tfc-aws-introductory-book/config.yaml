@@ -1,11 +1,11 @@
 title: "AWSで始めるHCP Terraform入門"
-summary: "📚 このZenn Bookについて
+summary: |-
+  📚 このZenn Bookについて
   HCP Terraformには、組織でTerraformを運用する際に便利な機能が様々あります。Terraformは知っているけど、HCP Terraformは知らない人向けにAWSを使ってHCP Terraformの各種機能を説明します。
   🗓️ 更新履歴
   ・2024/07/25: Terraform Cloud -> HCP Terraformに更新
   ・2025/01/04: HCP Terraform関連のスクリーンショットを最新化・Terraform Version 1.10にアップデート
   ・2025/01/05: tfe providerを使ったハンズオン手順の追加
-  "
 topics: ["aws", "terraform"]
 published: true
 price: 0 # 有料の場合200〜5000
